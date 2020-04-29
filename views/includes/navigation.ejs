@@ -1,0 +1,26 @@
+<div class="backdrop"></div>
+<header class="main-header">
+    <nav class="main-header__nav">
+        <ul class="main-header__item-list">
+            <li class="main-header__item">
+                <a class="<%= path === '/' ? 'active' : '' %>" href="/">Home</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/notes' ? 'active' : '' %>" href="/notes">Notes</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/tags' ? 'active' : '' %>" href="/tags">Tags</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/archive' ? 'active' : '' %>" href="/archive">Archive</a>
+            </li>
+        </ul>
+        <ul class="main-header__item-list">
+            <li class="main-header__item">
+                <form action="/auth/logout" method="post">
+                    <button class="logout" type="submit">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>

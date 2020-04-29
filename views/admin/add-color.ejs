@@ -1,0 +1,27 @@
+<%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main class="main">
+        <div class="flex">
+            <form class="form" action="/admin/add-color" method="POST">
+                <h1 class="title">Add new color</h1>
+                <div class="form-control">
+                    <img class="icon" src="/img/brush.svg" alt="brush">
+                    <input class="input input-white" type="text" name="name" id="name" placeholder="Name">
+                </div>
+                <div class="form-control">
+                    <img class="icon" src="/img/hash.svg" alt="hash">
+                    <input class="input input-white" type="text" name="hash" id="hash" placeholder="Hash">
+                </div>
+                <% if (errorMessage) { %>
+                <div class="user-message user-message--error"><%= errorMessage %></div>
+                <% } %>
+                <button class="btn login-button" type="submit">Add Color</button>
+            </form>
+
+        </div>
+    </main>
+    <%- include('../includes/end.ejs') %>

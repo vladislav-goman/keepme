@@ -1,0 +1,30 @@
+<%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+        <% if (orders.length <= 0) { %>
+        <h1>Nothing there!</h1>
+        <% } else { %>
+        <h1> History if your orders:</h1>
+        <ul>
+            <% orders.forEach(product => { %>
+            <li>
+                <h4 class="order__title"><%= product.Title %></h4>
+                <div class="order__container">
+                    <img class="order__image" src="<%= product.Cover %>">
+                    <div class="order__description">
+                        <p class="order__descr">Price: $<%= product.Price %></p>
+                        <p class="order__descr">Date: <%= new Date(product.Bubuy.createdAt).toDateString() %></p>
+                        <p class="order__descr">Time: <%= new Date(product.Bubuy.createdAt).toLocaleTimeString() %></p>
+                        <a href="/product/<%= product.IdBook %>" class="order__link">Link to book page</a>
+                    </div>
+                </div>
+            </li>
+            <% }); %>
+        </ul>
+        </li>
+        <% } %>
+    </main>
+    <%- include('../includes/end.ejs') %>

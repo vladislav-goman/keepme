@@ -1,0 +1,36 @@
+<%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main class="main">
+        <div class="flex">
+            <form class="form" action="<% if (editMode) { %>/edit-tag<% } else { %>/add-tag<% } %>"
+                method="POST">
+                <div class="container">
+                    <h1 class="title"><% if (editMode) { %>Edit Tag<% } else { %>Create Tag<% } %></h1>
+                    <div class="form-control">
+                        <img class="icon" src="/img/name.svg" alt="brush">
+                        <input value="<% if (editMode) { %><%= tag.name %><% } %>" class="input input-white" type="text"
+                            name="name" id="name" placeholder="Name">
+                    </div>
+                    <div class="form-control">
+                        <label class="label" for="description">Tag description:</label>
+                        <textarea id="description" class="textarea input-white" type="description" name="description"
+                            placeholder="Description"><% if (editMode) { %><%= tag.description %><% } %></textarea>
+                    </div>
+                    <% if (editMode) { %>
+                    <input value="<%= tag.id %>" type="hidden" name="tagId">
+                    <% } %>
+                    <% if (errorMessage) { %>
+                    <div class="user-message user-message--error"><%= errorMessage %></div>
+                    <% } %>
+                    <button class="btn login-button" type="submit"><% if (editMode) { %>Submit<% } else { %>Add
+                        Tag<% } %></button>
+                </div>
+            </form>
+
+        </div>
+    </main>
+    <%- include('../includes/end.ejs') %>

@@ -1,0 +1,23 @@
+<%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main class="main">
+        <h1 class="title">Available colors:</h1>
+        <% if (colors.length > 0) { %>
+        <div class="flex-start">
+            <% for (let color of colors) { %>
+            <article class="sample" style="background-color:<%= color.dataValues.hash %>;">
+                <span class="sample-name">
+                    <%= color.dataValues.name %>
+                </span>
+            </article>
+            <% } %>
+        </div>
+        <% } else { %>
+        <h2>No colors Found!</h2>
+        <% } %>
+    </main>
+    <%- include('../includes/end.ejs') %>

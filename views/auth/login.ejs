@@ -1,0 +1,32 @@
+<%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+
+    <main>
+        <div class="form-wrapper">
+            <form class="login-form" action="/auth/login" method="POST">
+                <h1 class="title">Member Login</h1>
+                <div class="form-control">
+                    <img class="icon" src="/img/mail.svg" alt="Login">
+                    <input value="<% if (email) { %><%= email %><% } %>" class="input" type="email" name="email" id="email" placeholder="E-Mail">
+                </div>
+                <div class="form-control">
+                    <img class="icon" src="/img/lock.svg" alt="Login">
+                    <input class="input" type="password" name="password" id="password"  placeholder="Password">
+                </div>
+                <% if (errorMessage) { %>
+                <div class="user-message user-message--error"><%= errorMessage %></div>
+                <% } %>
+                <% if (successMessage) { %>
+                <div class="user-message user-message--success"><%= successMessage %></div>
+                <% } %>
+                <button class="btn login-button" type="submit">Login</button>
+                <div class="sign-up-link-container">
+                    <span class="sign-up-link-label">or </span>
+                    <a class="sign-up-link" href="/auth/signup">Create new Account</a>
+                </div>
+            </form>
+        </div>
+    </main>
+    <%- include('../includes/end.ejs') %>

@@ -1,0 +1,81 @@
+<%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main class="main">
+        <div class="flex">
+            <form class="form grid-form" action="<% if (editMode) { %>/edit-note<% } else { %>/add-note<% } %>"
+                method="POST">
+                <div class="container">
+                    <h1 class="title"><% if (editMode) { %>Edit Note<% } else { %>What's new?<% } %></h1>
+                    <div class="form-control">
+                        <img class="icon" src="/img/name.svg" alt="brush">
+                        <input value="<% if (editMode) { %><%= title %><% } %>" class="input input-white" type="text"
+                            name="title" id="title" placeholder="Title">
+                    </div>
+                    <div class="form-control">
+                        <label class="label" for="note-text">Your note:</label>
+                        <textarea id="note-text" class="textarea input-white" type="text" name="text"
+                            placeholder="Text"><% if (editMode) { %><%= text %><% } %></textarea>
+                    </div>
+                    <% if (editMode) { %>
+                    <input value="<%= noteId %>" type="hidden" name="noteId">
+                    <% } %>
+                    <% if (errorMessage) { %>
+                    <div class="user-message user-message--error"><%= errorMessage %></div>
+                    <% } %>
+                    <button class="btn login-button" type="submit"><% if (editMode) { %>Submit<% } else { %>Add
+                        Note<% } %></button>
+                </div>
+                <div class="container scroll-auto">
+                    <h2 class="label">Pick a color:</h2>
+                    <% if (colors.length > 0) { %>
+                    <div class="flex-start">
+                        <% for (let color of colors) { %>
+                        <label for="<%= color.dataValues.id %>" class="flex-column sample-container">
+                            <article class="sample-mini flex" style="background-color:<%= color.dataValues.hash %>;">
+                                <% if (editMode && color.dataValues.id === colorId) { %>
+                                <input checked="checked" value="<%= color.dataValues.id %>" class="sample-input"
+                                    type="radio" name="colorId" id="<%= color.dataValues.id %>"
+                                    value="<%= color.dataValues.id %>">
+                                <% } else { %>
+                                <input value="<%= color.dataValues.id %>" class="sample-input" type="radio"
+                                    name="colorId" id="<%= color.dataValues.id %>" value="<%= color.dataValues.id %>">
+                                <% } %>
+                            </article>
+                            <span class="label"><%= color.dataValues.name %></span>
+                        </label>
+                        <% } %>
+                    </div>
+                    <% } else { %>
+                    <h3 class="label">No color available!</h3>
+                    <% } %>
+                    <h2 class="label margin-top-sm">Select tags:</h2>
+                    <% if (userTags.length > 0) { %>
+                    <div class="tags-container-padding">
+                        <% for (let tag of userTags) { %>
+                        <label class="tag-small <% if (editMode && appliedTags.includes(tag.dataValues.id)) { %>active<% } %>" for="tag-<%= tag.dataValues.id %>">
+                            #<%= tag.dataValues.name %>
+                            <% if (editMode && appliedTags.includes(tag.dataValues.id)) { %>
+                            <input checked="checked" class="hidden tag-checkbox" id="tag-<%= tag.dataValues.id %>" type="checkbox" name="tags"
+                                value="<%= tag.dataValues.id %>">
+                            <% } else { %>
+                            <input class="hidden tag-checkbox" id="tag-<%= tag.dataValues.id %>" type="checkbox" name="tags"
+                                value="<%= tag.dataValues.id %>">
+                            <% } %>
+                        </label>
+                        <% } %>
+                    </div>
+                    <% } else { %>
+                    <h3 class="label">No Tags Created!</h3>
+                    <% } %>
+                </div>
+            </form>
+
+        </div>
+    </main>
+
+    <script src="/js/addNoteScript.js"></script>
+    <%- include('../includes/end.ejs') %>
