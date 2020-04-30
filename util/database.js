@@ -5,8 +5,11 @@ const sequelize = new Sequelize(
   process.env.DATABASE_USER,
   process.env.DATABASE_PASSWORD,
   {
-    dialect: "mysql",
-    host: "localhost",
+    dialect: process.env.DIALECT,
+    host: process.env.HOST,
+    production: {
+      use_env_variable: process.env.DATABASE_URL,
+    },
   }
 );
 
