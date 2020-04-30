@@ -86,59 +86,62 @@ Tag.belongsToMany(Note, {
   through: "tagged_note_item",
 });
 
+const syncConfig = process.env.syncForce ? { force: true } : {};
+
 sequelize
-  .sync()
-  // .sync({ force: true })
-  // .then(() => {
-  //   Color.create({
-  //     name: "White",
-  //     hash: "#ffffff",
-  //   });
-  //   Color.create({
-  //     name: "Gray",
-  //     hash: "#e8eaed",
-  //   });
-  //   Color.create({
-  //     name: "Brown",
-  //     hash: "#e6c9a8",
-  //   });
-  //   Color.create({
-  //     name: "Pink",
-  //     hash: "#fdcfe8",
-  //   });
-  //   Color.create({
-  //     name: "Purple",
-  //     hash: "#d7aefb",
-  //   });
-  //   Color.create({
-  //     name: "Dark Blue",
-  //     hash: "#aecbfa",
-  //   });
-  //   Color.create({
-  //     name: "Blue",
-  //     hash: "#cbf0f8",
-  //   });
-  //   Color.create({
-  //     name: "Salad",
-  //     hash: "#a7ffeb",
-  //   });
-  //   Color.create({
-  //     name: "Green",
-  //     hash: "#ccff90",
-  //   });
-  //   Color.create({
-  //     name: "Yellow",
-  //     hash: "#fff475",
-  //   });
-  //   Color.create({
-  //     name: "Orange",
-  //     hash: "#fbbc04",
-  //   });
-  //   Color.create({
-  //     name: "Red",
-  //     hash: "#f28b82",
-  //   });
-  // })
+  .sync(syncConfig)
+  .then(() => {
+    if (process.env.syncForce) {
+      Color.create({
+        name: "White",
+        hash: "#ffffff",
+      });
+      Color.create({
+        name: "Gray",
+        hash: "#e8eaed",
+      });
+      Color.create({
+        name: "Brown",
+        hash: "#e6c9a8",
+      });
+      Color.create({
+        name: "Pink",
+        hash: "#fdcfe8",
+      });
+      Color.create({
+        name: "Purple",
+        hash: "#d7aefb",
+      });
+      Color.create({
+        name: "Dark Blue",
+        hash: "#aecbfa",
+      });
+      Color.create({
+        name: "Blue",
+        hash: "#cbf0f8",
+      });
+      Color.create({
+        name: "Salad",
+        hash: "#a7ffeb",
+      });
+      Color.create({
+        name: "Green",
+        hash: "#ccff90",
+      });
+      Color.create({
+        name: "Yellow",
+        hash: "#fff475",
+      });
+      Color.create({
+        name: "Orange",
+        hash: "#fbbc04",
+      });
+      Color.create({
+        name: "Red",
+        hash: "#f28b82",
+      });
+    }
+  })
   .then(() => {
     app.listen(process.env.PORT || 3000);
   })
