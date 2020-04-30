@@ -86,12 +86,12 @@ Tag.belongsToMany(Note, {
   through: "tagged_note_item",
 });
 
-const syncConfig = process.env.syncForce ? { force: true } : {};
+const syncConfig = process.env.FORCE_SYNC ? { force: true } : {};
 
 sequelize
   .sync(syncConfig)
   .then(() => {
-    if (process.env.syncForce) {
+    if (process.env.FORCE_SYNC) {
       Color.create({
         name: "White",
         hash: "#ffffff",
