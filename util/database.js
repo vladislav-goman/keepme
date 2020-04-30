@@ -9,6 +9,7 @@ const sequelize = new Sequelize(
     host: process.env.HOST,
     production: {
       use_env_variable: process.env.DATABASE_URL,
+      dialect: "postgres",
     },
   }
 );
