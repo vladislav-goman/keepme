@@ -433,3 +433,52 @@ exports.getReminders = async (req, res, next) => {
     editMode,
   });
 };
+
+exports.getEditReminder = async (req, res, next) => {
+  const { noteId, reminderId } = req.params;
+  const { id: userId } = req.session.user;
+
+  const currentUser = await User.findByPk(userId);
+  const userReminder = await Reminder.findByPk(reminderId);
+  const [currentNote] = await currentUser.getNotes({where: {id: noteId}});
+
+  if (!userReminder) {
+    res.redirect("/notes");
+  }
+
+  let errorMessage = req.flash("error");
+  if (errorMessage.length > 0) {
+    errorMessage = errorMessage[0];
+  } else {
+    errorMessage = null;
+  }
+
+  res.render("main/add-reminder", {
+    pageTitle: "Edit Reminder",
+    path: "/add-reminder",
+    errorMessage,
+    editMode: true,
+    reminder: userReminder,
+    note: currentNote
+  });
+};
+
+exports.postEditReminder = async (req, res, next) => {
+  const { reminderId, timestamp, remindText } = req.body;
+  const reminder = await Reminder.findByPk(reminderId);
+
+  if (!timestamp) {
+    req.flash("error", "Tag must have a name!");
+    return res.redirect("/edit-reminder");
+  }
+  if (!reminder) {
+    res.redirect("/reminders");
+  }
+
+  reminder.timestamp = timestamp;
+  reminder.remindText = remindText;
+
+  reminder.save().then(() => {
+    res.redirect("/reminders?action=edit");
+  });
+};

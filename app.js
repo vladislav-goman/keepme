@@ -1,8 +1,12 @@
 const path = require("path");
+const fs = require("fs");
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
+const helmet = require("helmet");
+const compression = require("compression");
+const morgan = require("morgan");
 
 const errorController = require("./controllers/error");
 const sequelize = require("./util/database");
@@ -17,10 +21,18 @@ const mainRoutes = require("./routes/main");
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 
+const loggingStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
+  flags: "a",
+});
+
 const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", "views");
+
+app.use(helmet());
+app.use(compression());
+app.use(morgan("combined", { stream: loggingStream }));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -36,7 +48,10 @@ app.use(
 app.use(flash());
 
 app.use((req, res, next) => {
-  if (!req.session.isLoggedIn && !(req.url === "/auth/login" || req.url === "/auth/signup")) {
+  if (
+    !req.session.isLoggedIn &&
+    !(req.url === "/auth/login" || req.url === "/auth/signup")
+  ) {
     return res.redirect("/auth/login");
   } else next();
 });
@@ -56,12 +71,12 @@ User.hasMany(Note, { constraints: true, onDelete: "CASCADE" });
 Note.belongsTo(User);
 
 Note.belongsTo(Color);
-Color.hasMany(Note);  
+Color.hasMany(Note);
 
 User.hasMany(Tag, { constraints: true, onDelete: "CASCADE" });
 Tag.belongsTo(User);
 
-Note.hasMany(Reminder);  
+Note.hasMany(Reminder);
 Reminder.belongsTo(Note);
 
 Note.belongsToMany(Tag, {
@@ -125,7 +140,7 @@ sequelize
   //   });
   // })
   .then(() => {
-    app.listen(3000);
+    app.listen(process.env.PORT || 3000);
   })
   .catch((err) => {
     console.log(err);

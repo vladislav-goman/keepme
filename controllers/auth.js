@@ -2,9 +2,7 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const sgMail = require("@sendgrid/mail");
 
-sgMail.setApiKey(
-  "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"
-);
+sgMail.setApiKey(process.env.MAIL_SERVER_API_KEY);
 
 exports.getLogin = (req, res, next) => {
   let errorMessage = req.flash("error");
