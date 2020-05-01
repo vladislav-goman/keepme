@@ -235,7 +235,7 @@ form {
     align-items: center;
     flex-direction: column-reverse;
   }
-  .container:first-of-type {
+  .container:last-of-type {
     margin-bottom: 1rem;
   }
 }
