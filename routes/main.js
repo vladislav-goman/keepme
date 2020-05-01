@@ -52,10 +52,10 @@ router.get("/add-reminder/:noteId", mainController.getAddReminder);
 
 router.post("/add-reminder", mainController.postAddReminder);
 
-router.get("/edit-reminder/:reminderId", mainController.getEditReminder);
-
 router.post("/edit-reminder", mainController.postEditReminder);
 
-// router.post("/delete-reminder", mainController.postDeleteReminder);
+router.get("/edit-reminder/:reminderId", mainController.getEditReminder);
+
+router.post("/delete-reminder", mainController.postDeleteReminder);
 
 module.exports = router;

@@ -8,6 +8,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Baloo Paaji 2', cursive, 'Open Sans', sans-serif;
+  overflow-x: hidden;
 }
 
 main {
@@ -34,7 +35,7 @@ form {
   width: 100%;
   height: 3.5rem;
   background-color: #68ff7c;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
   display: flex;
   align-items: center;
 }
@@ -55,7 +56,7 @@ form {
 }
 
 .main-header__item {
-  margin: 0 1rem;
+  margin-right: 1rem;
   padding: 0;
 }
 
@@ -225,6 +226,14 @@ form {
   padding: 2rem;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
+}
+
+@media screen and (max-width: 900px) {
+  .grid-form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
 }
 
 .form-wrapper {
@@ -452,6 +461,7 @@ form {
   opacity: 0;
   visibility: hidden;
   transition: .3s all;
+  overflow: hidden;
 }
 
 .action-form {

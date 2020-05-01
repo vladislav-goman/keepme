@@ -3,8 +3,61 @@
 
 <body>
     <%- include('../includes/navigation.ejs') %>
-
-    <main>
-        
+    <main class="main">
+        <h1 class="title">Welcome, <%= user.dataValues.login %></h1>
+        <% if (notes.length > 0) { %>
+            <h4 class="title">Here are items you've pinned:</h4>
+        <div class="notes-container">
+            <% for (let note of notes) { %>
+            <article class="note--item" style="background-color:<%= note.dataValues.color.dataValues.hash %>;">
+                <div class="note--main">
+                    <div class="note--body">
+                        <% if (note.title) { %>
+                        <h2 class="note__title">
+                            <%= note.title %>
+                        </h2>
+                        <% } %>
+                        <p class="note__description">
+                            <%= note.text %>
+                        </p>
+                    </div>
+                    <div class="note--footer">
+                        <% if (note.dataValues.tags.length > 0) { %>
+                        <% for (let tag of note.dataValues.tags) { %>
+                        <a href="/tags/<%= tag.dataValues.id %>" class="tag-small">#<%= tag.name %></a>
+                        <% } %>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="actions">
+                    <form action="/archive-note" method="POST" class="action-form flex">
+                        <input name="noteId" value="<%= note.dataValues.id %>" type="hidden">
+                        <button class="action-button" type="submit">
+                            <img src="/img/archive.svg" alt="Archive" class="action-img">
+                        </button>
+                    </form>
+                    <form action="/pin-note" method="POST" class="action-form">
+                        <input name="noteId" value="<%= note.dataValues.id %>" type="hidden">
+                        <button class="action-button flex" type="submit">
+                            <img src="/img/pin.svg" alt="Pin" class="action-img">
+                        </button>
+                    </form>
+                    <form action="/edit-note/<%= note.dataValues.id %>" method="GET" class="action-form">
+                        <button class="action-button flex" type="submit">
+                            <img src="/img/edit.svg" alt="Edit" class="action-img">
+                        </button>
+                    </form>
+                    <form action="/add-reminder/<%= note.dataValues.id %>" method="GET" class="action-form">
+                        <button class="action-button flex" type="submit">
+                            <img src="/img/reminder.svg" alt="Remind" class="action-img">
+                        </button>
+                    </form>
+                </div>
+            </article>
+            <% } %>
+        </div>
+        <% } else { %>
+        <h1>Your pinned notes would appear here!</h1>
+        <% } %>
     </main>
     <%- include('../includes/end.ejs') %>

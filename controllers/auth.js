@@ -1,17 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
-const nodemailer = require("nodemailer");
-const mg = require("nodemailer-mailgun-transport");
 const crypto = require("crypto");
-
-const mailAuth = {
-  auth: {
-    api_key: process.env.MAIL_SERVER_API_KEY,
-    domain: process.env.MAIL_SERVER_DOMAIN,
-  },
-};
-
-const emailer = nodemailer.createTransport(mg(mailAuth));
+const emailer = require("../util/emailer");
 
 exports.getLogin = (req, res, next) => {
   let errorMessage = req.flash("error");

@@ -5,11 +5,27 @@ const Tag = require("../models/tag");
 const Reminder = require("../models/reminder");
 const { Op } = require("sequelize");
 
-exports.getIndex = (req, res, next) => {
+exports.getIndex = async (req, res, next) => {
+  const { id: userId } = req.session.user;
+  const user = await User.findByPk(userId);
+  const userNotes = await user.getNotes({
+    include: [Color, Tag],
+    where: {
+      isArchived: {
+        [Op.not]: true,
+      },
+      isPinned: {
+        [Op.is]: true,
+      },
+    },
+  });
+
   res.render("main/index", {
     prods: [],
     pageTitle: "Home",
     path: "/",
+    notes: userNotes,
+    user,
   });
 };
 
@@ -372,9 +388,9 @@ exports.getAddReminder = async (req, res, next) => {
   const { id: userId } = req.session.user;
 
   const currentUser = await User.findByPk(userId);
-  const [currentNote] = await currentUser.getNotes({where: {id: noteId}});
+  const [currentNote] = await currentUser.getNotes({ where: { id: noteId } });
 
-  if(!currentNote) {    
+  if (!currentNote) {
     return res.redirect("/notes");
   }
 
@@ -390,7 +406,7 @@ exports.getAddReminder = async (req, res, next) => {
     path: "/add-reminder",
     errorMessage,
     editMode: false,
-    note: currentNote
+    note: currentNote,
   });
 };
 
@@ -403,9 +419,9 @@ exports.postAddReminder = async (req, res, next) => {
   const { id: userId } = req.session.user;
 
   const currentUser = await User.findByPk(userId);
-  const [currentNote] = await currentUser.getNotes({where: {id: noteId}});
+  const [currentNote] = await currentUser.getNotes({ where: { id: noteId } });
 
-  if(!currentNote) {    
+  if (!currentNote) {
     return res.redirect("/notes");
   }
 
@@ -423,8 +439,10 @@ exports.getReminders = async (req, res, next) => {
   const { id: userId } = req.session.user;
   const editMode = req.query.action;
   const user = await User.findByPk(userId);
-  const userNotes = await user.getNotes({include: [Reminder, Color]});
-  const remindNotes = userNotes.filter(({dataValues}) => dataValues.reminders.length);
+  const userNotes = await user.getNotes({ include: [Reminder, Color] });
+  const remindNotes = userNotes.filter(
+    ({ dataValues }) => dataValues.reminders.length
+  );
 
   res.render("main/reminders-list", {
     pageTitle: "Your Reminders",
@@ -435,12 +453,15 @@ exports.getReminders = async (req, res, next) => {
 };
 
 exports.getEditReminder = async (req, res, next) => {
-  const { noteId, reminderId } = req.params;
+  const { reminderId } = req.params;
   const { id: userId } = req.session.user;
 
+  const currentReminder = await Reminder.findByPk(reminderId);
   const currentUser = await User.findByPk(userId);
   const userReminder = await Reminder.findByPk(reminderId);
-  const [currentNote] = await currentUser.getNotes({where: {id: noteId}});
+  const [currentNote] = await currentUser.getNotes({
+    where: { id: currentReminder.dataValues.noteId },
+  });
 
   if (!userReminder) {
     res.redirect("/notes");
@@ -459,13 +480,19 @@ exports.getEditReminder = async (req, res, next) => {
     errorMessage,
     editMode: true,
     reminder: userReminder,
-    note: currentNote
+    note: currentNote,
   });
 };
 
 exports.postEditReminder = async (req, res, next) => {
   const { reminderId, timestamp, remindText } = req.body;
+  const { id: userId } = req.session.user;
   const reminder = await Reminder.findByPk(reminderId);
+  const currentNote = await reminder.getNote();
+
+  if (currentNote.dataValues.userId !== userId) {
+    res.redirect("/reminders");
+  }
 
   if (!timestamp) {
     req.flash("error", "Tag must have a name!");
@@ -480,5 +507,21 @@ exports.postEditReminder = async (req, res, next) => {
 
   reminder.save().then(() => {
     res.redirect("/reminders?action=edit");
+  });
+};
+
+exports.postDeleteReminder = async (req, res, next) => {
+  const { reminderId } = req.body;
+  const { id: userId } = req.session.user;
+
+  const currentReminder = await Reminder.findByPk(reminderId);
+  const currentNote = await currentReminder.getNote();
+
+  if (currentNote.dataValues.userId !== userId) {
+    res.redirect("/reminders");
+  }
+
+  currentReminder.destroy().then(() => {
+    res.redirect("/reminders");
   });
 };

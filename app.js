@@ -12,6 +12,7 @@ const forceHTTPS = require("./middleware/forceHTTPS");
 
 const errorController = require("./controllers/error");
 const sequelize = require("./util/database");
+const reminderController = require("./util/reminderController");
 
 const User = require("./models/user");
 const Note = require("./models/note");
@@ -78,16 +79,16 @@ app.use("/admin", adminRoutes);
 
 app.use(errorController.get404);
 
-User.hasMany(Note, { constraints: true, onDelete: "CASCADE" });
+User.hasMany(Note, { constraints: true, onDelete: "cascade" });
 Note.belongsTo(User);
 
 Note.belongsTo(Color);
 Color.hasMany(Note);
 
-User.hasMany(Tag, { constraints: true, onDelete: "CASCADE" });
+User.hasMany(Tag, { constraints: true, onDelete: "cascade" });
 Tag.belongsTo(User);
 
-Note.hasMany(Reminder);
+Note.hasMany(Reminder), { constraints: true, onDelete: "cascade" };
 Reminder.belongsTo(Note);
 
 Note.belongsToMany(Tag, {
@@ -152,6 +153,9 @@ sequelize
         hash: "#f28b82",
       });
     }
+  })
+  .then(() => {
+    setInterval(reminderController, 1000 * 60 * 60);
   })
   .then(() => {
     app.listen(process.env.PORT || 3000);
