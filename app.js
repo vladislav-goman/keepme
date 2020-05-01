@@ -50,7 +50,12 @@ app.use(flash());
 app.use((req, res, next) => {
   if (
     !req.session.isLoggedIn &&
-    !(req.url === "/auth/login" || req.url === "/auth/signup")
+    !(
+      req.url === "/auth/login" ||
+      req.url === "/auth/signup" ||
+      req.url === "/auth/set-new-password" ||
+      req.url.includes("/auth/forgot-password")
+    )
   ) {
     return res.redirect("/auth/login");
   } else next();

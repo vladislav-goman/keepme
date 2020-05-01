@@ -595,3 +595,23 @@ form {
   height:30px;
   border-radius: 50%;
 }
+
+.error-page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.error-title {
+  font-size: 5rem;
+  color: white;
+  background-color: #ff6b6d;
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin:0;
+}
