@@ -233,7 +233,10 @@ form {
   .grid-form {
     display: flex;
     align-items: center;
-    flex-direction: column;
+    flex-direction: column-reverse;
+  }
+  .container:first-of-type {
+    margin-bottom: 1rem;
   }
 }
 
