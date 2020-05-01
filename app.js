@@ -8,6 +8,8 @@ const helmet = require("helmet");
 const compression = require("compression");
 const morgan = require("morgan");
 
+const forceHTTPS = require("./middleware/forceHTTPS");
+
 const errorController = require("./controllers/error");
 const sequelize = require("./util/database");
 
@@ -33,6 +35,10 @@ app.set("views", "views");
 app.use(helmet());
 app.use(compression());
 app.use(morgan("combined", { stream: loggingStream }));
+
+if (process.env.NODE_ENV === "production") {
+  app.use(forceHTTPS);
+}
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
