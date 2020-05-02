@@ -77,7 +77,7 @@ form {
 
 @media screen and (max-width: 900px) {
   .main-header {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
