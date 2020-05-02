@@ -1,5 +1,4 @@
 <%- include('../includes/head.ejs') %>
-<link rel="stylesheet" href="/css/note.css">
 </head>
 
 <body>
@@ -58,7 +57,8 @@
             <% } %>
         </div>
         <% } else { %>
-        <h1>No Reminders created yet!</h1>
+        <h1 class="title">No Reminders created yet!</h1>
         <% } %>
-    </main>
+    <div class="mobile-offset"></div>
+</main>
     <%- include('../includes/end.ejs') %>

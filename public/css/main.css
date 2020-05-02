@@ -10,14 +10,47 @@ body {
   font-family: 'Baloo Paaji 2', cursive, 'Open Sans', sans-serif;
   overflow-x: hidden;
   width: 100vw;
+  max-width: 100vw;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+@media screen and (max-width: 900px) {
+  .flex-end-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
 }
 
 main {
+  padding: 2rem;
   margin: auto;
+  min-height: 100vh;
+  width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+  main {
+    padding: 1rem;
+  }
 }
 
 form {
   display: inline;
+}
+
+.mobile-offset {
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
+  .mobile-offset {
+    display: block;
+    width: 100%;
+    height: 56px;
+  }
 }
 
 .centered {
@@ -33,12 +66,20 @@ form {
 }
 
 .main-header {
-  width: 100%;
-  height: 3.5rem;
-  background-color: #68ff7c;
-  padding: 0 2rem;
-  display: flex;
-  align-items: center;
+  height: 100vh;
+  background-color: #CBF3F0;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,.3);
+  width: 155px;
+}
+
+@media screen and (max-width: 900px) {
+  .main-header {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: unset;
+  }
 }
 
 .main-header__nav {
@@ -47,41 +88,82 @@ form {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 900px) {
+  .main-header__nav {
+    display: grid;
+    grid-template-columns: 6fr 1fr;
+  }
 }
 
 .main-header__item-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+  .main-header__item-list {
+    width: unset;
+    display: flex;
+  }
+}
+
+.header-link {
   display: flex;
-}
-
-.main-header__item {
-  margin-right: 1rem;
-  padding: 0;
-}
-
-.main {
-  padding: 2rem;
-}
-
-.main-header__item a {
+  align-items: center;
+  padding: 1rem;
+  transition: .3s all;
   text-decoration: none;
-  border: 2px solid white;
-  padding: .2rem .5rem;
-  color: white;
-  background-color: #00ff11;
-  border-radius: 4px;
   cursor: pointer;
+}
+
+.header-link:hover {
+  background-color: #2EC4B6;
+}
+
+.header-link:hover .header-icon {
+  filter: invert(100%);
+}
+
+.header-link:hover .header-label {
+  color: white;
+}
+
+.header-link.active {
+  background-color: #2EC4B6;
+}
+
+.header-link.active .header-icon {
+  filter: invert(100%);
+}
+
+.header-link.active .header-label {
+  color: white;
+}
+
+.header-icon {
+  height: 2rem;
+  transition: .3s all;
+  margin-right: 1rem;
+}
+
+@media screen and (max-width: 900px) {
+  .header-icon {
+    height: 1.5rem;
+    margin-right: 0;
+  }
+}
+
+.header-label {
+  color: #000000;
   transition: .3s all;
 }
 
-.main-header__item a:hover,
-.main-header__item a:active,
-.main-header__item a.active {
-  border-color: #00ff11;
-  color: #00ff11;
-  background-color: white;
+@media screen and (max-width: 900px) {
+  .header-label {
+    display: none;
+  }
 }
 
 .btn {
@@ -89,8 +171,8 @@ form {
   padding: 0.25rem 1rem;
   text-decoration: none;
   font: inherit;
-  border: 1px solid #00ff11;
-  color: #00ff11;
+  border: 1px solid #FF9F1C;
+  color: #FF9F1C;
   background: white;
   border-radius: 3px;
   cursor: pointer;
@@ -99,7 +181,7 @@ form {
 
 .btn:hover,
 .btn:active {
-  background-color: #00ff11;
+  background-color: #FF9F1C;
   color: white;
 }
 
@@ -162,19 +244,21 @@ form {
 }
 
 .logout {
-  border: 2px solid white;
-  padding: .5rem .9rem;
-  color: white;
-  background-color: #00ff11;
-  border-radius: 4px;
+  border: none;
+  color: black;
   cursor: pointer;
   transition: .3s all;
+  background-color: transparent;
+}
+
+@media screen and (max-width: 900px) {
+  .logout {
+    display: none;
+  }
 }
 
 .logout:hover {
-  border-color: #00ff11;
-  color: #00ff11;
-  background-color: white;
+  color: white;
 }
 
 .user-message {
@@ -199,7 +283,7 @@ form {
 
 .login-form {
   width: 25rem;
-  max-width: 90%;
+  max-width: 95%;
   margin: auto;
   display: block;
   background-color: #ffffff;
@@ -217,9 +301,15 @@ form {
   padding: 2rem;
 }
 
+@media screen and (max-width: 900px) {
+  .form {
+    padding: 1rem;
+  }
+}
+
 .grid-form {
   width: 45rem;
-  max-width: 90%;
+  max-width: 95%;
   margin: auto;
   display: grid;
   background-color: #f5f5f5;
@@ -227,6 +317,12 @@ form {
   padding: 2rem;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
+}
+
+@media screen and (max-width: 900px) {
+  .grid-form {
+    padding: 1rem;
+  }
 }
 
 @media screen and (max-width: 900px) {
@@ -243,7 +339,7 @@ form {
 .form-wrapper {
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(45deg, #191de6, #e33ad7);
+  background: linear-gradient(45deg, #FFBF69, #CBF3F0);
   display: flex;
   align-items: center;
   justify-content: center; 
@@ -266,9 +362,15 @@ form {
   font-size: 5rem;
 }
 
+@media screen and (max-width: 900px) {
+  .tag-title {
+    font-size: 2rem;
+  }
+}
+
 .tag-description {
   background-color: #68ff7c;
-  margin: 0;
+  margin: 0 0 1rem;
   color: #545454;
   text-align: center;
 }
@@ -306,7 +408,7 @@ form {
 }
 
 .textarea:focus {
-  border-color: #00ff11;
+  border-color: #FF9F1C;
 }
 
 .input {
@@ -324,7 +426,7 @@ form {
 }
 
 .input:focus {
-  border-color: #00ff11;
+  border-color: #FF9F1C;
 }
 
 .login-button {
@@ -332,7 +434,7 @@ form {
   margin-top: 1rem;
   border-radius: 2rem;
   height: 3rem;
-  border: 2px solid #00ff11;
+  border: 2px solid #FF9F1C;
 }
 
 .sign-up-link {
@@ -342,7 +444,7 @@ form {
 }
 
 .sign-up-link:hover {
-  color: #00ff11;
+  color: #FF9F1C;
   text-decoration: underline;
 }
 
@@ -394,7 +496,7 @@ form {
 .add-button {
   display: flex;
   align-items: center;
-  padding: .5rem 1rem;
+  padding: 1rem 1rem;
 }
 
 .add-button:hover .add-button-icon {
@@ -405,7 +507,7 @@ form {
   height: 2rem;
   width: 2rem;
   margin-right: 1rem;
-  fill: #00ff11;
+  fill: #FF9F1C;
   transition: .3s all;
 }
 
@@ -415,7 +517,7 @@ form {
   align-items: center;
   padding: 2rem 0 0;
   max-width: 40rem;
-  width: 80%;
+  width: 100%;
   margin:auto;
 }
 
@@ -514,14 +616,14 @@ form {
   border-radius: 2rem;
   margin: .5rem;
   background-color: #ffffff;
-  color: #00ff11;
-  border: 1px solid #00ff11;
+  color: #FF9F1C;
+  border: 1px solid #FF9F1C;
   transition: .3s all;
   cursor: pointer;
 }
 
 .tag-item:hover {
-  background-color: #00ff11;
+  background-color: #FF9F1C;
   color: #ffffff;
 }
 

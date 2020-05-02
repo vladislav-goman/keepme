@@ -1,28 +1,34 @@
 <header class="main-header">
     <nav class="main-header__nav">
-        <ul class="main-header__item-list">
-            <li class="main-header__item">
-                <a class="<%= path === '/' ? 'active' : '' %>" href="/">Home</a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/notes' ? 'active' : '' %>" href="/notes">Notes</a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/tags' ? 'active' : '' %>" href="/tags">Tags</a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/reminders' ? 'active' : '' %>" href="/reminders">Reminders</a>
-            </li>
-            <li class="main-header__item">
-                <a class="<%= path === '/archive' ? 'active' : '' %>" href="/archive">Archive</a>
-            </li>
-        </ul>
-        <ul class="main-header__item-list">
-            <li class="main-header__item">
+        <div class="main-header__item-list">
+            <a class="header-link <%= path === '/' ? 'active' : '' %>" href="/">
+                <img src="/img/home.svg" alt="Home" class="header-icon">
+                <span class="header-label">Home</span>
+            </a>
+            <a class="header-link <%= path === '/notes' ? 'active' : '' %>" href="/notes">
+                <img src="/img/note.svg" alt="Notes" class="header-icon">
+                <span class="header-label">Notes</span>
+            </a>
+            <a class="header-link <%= path === '/tags' ? 'active' : '' %>" href="/tags">
+                <img src="/img/hashtag.svg" alt="Tags" class="header-icon">
+                <span class="header-label">Tags</span>
+            </a>
+            <a class="header-link <%= path === '/reminders' ? 'active' : '' %>" href="/reminders">
+                <img src="/img/reminder.svg" alt="Reminders" class="header-icon">
+                <span class="header-label">Reminders</span>
+            </a>
+            <a class="header-link <%= path === '/archive' ? 'active' : '' %>" href="/archive">
+                <img src="/img/archive.svg" alt="Archive" class="header-icon">
+                <span class="header-label">Archive</span>
+            </a>
+        </div>
+        <div class="main-header__item-list flex-end-mobile">
+            <label class="header-link" for="logout-btn">
+                <img src="/img/logout.svg" alt="Home page" class="header-icon">
                 <form action="/auth/logout" method="post">
-                    <button class="logout" type="submit">Logout</button>
+                    <button id="logout-btn" class="logout" type="submit">Logout</button>
                 </form>
-            </li>
-        </ul>
+            </label>
+        </div>
     </nav>
 </header>

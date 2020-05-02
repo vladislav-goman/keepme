@@ -56,14 +56,16 @@
                     <% if (userTags.length > 0) { %>
                     <div class="tags-container-padding">
                         <% for (let tag of userTags) { %>
-                        <label class="tag-small <% if (editMode && appliedTags.includes(tag.dataValues.id)) { %>active<% } %>" for="tag-<%= tag.dataValues.id %>">
+                        <label
+                            class="tag-small <% if (editMode && appliedTags.includes(tag.dataValues.id)) { %>active<% } %>"
+                            for="tag-<%= tag.dataValues.id %>">
                             #<%= tag.dataValues.name %>
                             <% if (editMode && appliedTags.includes(tag.dataValues.id)) { %>
-                            <input checked="checked" class="hidden tag-checkbox" id="tag-<%= tag.dataValues.id %>" type="checkbox" name="tags"
-                                value="<%= tag.dataValues.id %>">
+                            <input checked="checked" class="hidden tag-checkbox" id="tag-<%= tag.dataValues.id %>"
+                                type="checkbox" name="tags" value="<%= tag.dataValues.id %>">
                             <% } else { %>
-                            <input class="hidden tag-checkbox" id="tag-<%= tag.dataValues.id %>" type="checkbox" name="tags"
-                                value="<%= tag.dataValues.id %>">
+                            <input class="hidden tag-checkbox" id="tag-<%= tag.dataValues.id %>" type="checkbox"
+                                name="tags" value="<%= tag.dataValues.id %>">
                             <% } %>
                         </label>
                         <% } %>
@@ -75,6 +77,7 @@
             </form>
 
         </div>
+        <div class="mobile-offset"></div>
     </main>
 
     <script src="/js/addNoteScript.js"></script>
