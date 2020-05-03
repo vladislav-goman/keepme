@@ -543,33 +543,18 @@ exports.postDeleteReminder = async (req, res, next) => {
 };
 
 exports.getSearch = async (req, res, next) => {
-  const { id: userId } = req.session.user;
-  const currentUser = await User.findByPk(userId);
-
   res.render("main/search", {
     pageTitle: "Search",
     path: "/search",
     notes: [],
     searchTerm: false,
-    includeArchive: false,
-    withTitle: false,
   });
 };
 
 exports.postSearch = async (req, res, next) => {
   const { id: userId } = req.session.user;
-  const { filters, searchTerm } = req.body;
-  let withTitle = false,
-    includeArchive = false;
+  const { searchTerm } = req.body;
   const currentUser = await User.findByPk(userId);
-
-  if (filters && filters.length) {
-    withTitle = filters.includes("withTitle");
-    includeArchive = filters.includes("includeArchive");
-  } else {
-    withTitle = filters === "withTitle";
-    includeArchive = filters === "includeArchive";
-  }
 
   const query = {
     [Op.or]: {
@@ -591,7 +576,5 @@ exports.postSearch = async (req, res, next) => {
     path: "/search",
     notes: foundNotes,
     searchTerm,
-    includeArchive,
-    withTitle,
   });
 };

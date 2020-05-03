@@ -16,17 +16,6 @@
                     <span class="add-button-label">Search</span>
                 </button>
             </div>
-            <h2 class="search-title">Filters:</h2>
-            <div class="flex-align-center filter-item">
-                <input <% if (withTitle) { %>checked<% } %> type="checkbox" name="filters" value="withTitle"
-                    id="withTitle">
-                <label class="label" for="withTitle">with title</label>
-            </div>
-            <div class="flex-align-center filter-item">
-                <input <% if (includeArchive) { %>checked<% } %> type="checkbox" name="filters" value="includeArchive"
-                    id="includeArchive">
-                <label class="label" for="includeArchive">include archived notes</label>
-            </div>
         </form>
         <% if (notes.length > 0) { %>
         <div class="notes-container">
@@ -52,7 +41,7 @@
                         <% } %>
                     </div>
                 </div>
-                <% if (note.dataValues.isArchived > 0) { %>
+                <% if (note.dataValues.isArchived) { %>
                 <div class="actions">
                     <form action="/archive-note" method="POST" class="action-form">
                         <input name="noteId" value="<%= note.dataValues.id %>" type="hidden">
@@ -97,7 +86,7 @@
             <% } %>
         </div>
         <% } else { %>
-        <h1 class="title">No notes Found!</h1>
+        <h1 class="title margin-top-sm">No notes Found!</h1>
         <% } %>
 
     </main>

@@ -577,7 +577,16 @@ form {
   }
 }
 
+.pinned {
+  position: absolute;
+  width: 2rem;
+  top: 0;
+  left: 0;
+  transform: translateY(-30%) translateX(-40%);
+}
+
 .note--item {
+  position: relative;
   width: 100%;
   padding: 1rem 1rem .7rem;
   border-radius: 1rem;
