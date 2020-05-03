@@ -73,6 +73,7 @@ form {
     position: fixed;
     width: 100%;
     height: unset;
+    overflow-x: auto;
   }
 }
 
@@ -751,7 +752,7 @@ form {
 }
 
 @media screen and (max-width: 900px) {
-  .row-4, .row-5-reminder, .row-6-reminder, .row-5 {
+  .row-4, .row-5-reminder, .row-6-reminder, .row-5, .row-admin {
     padding: 0;
     min-width: 800px;
   }
