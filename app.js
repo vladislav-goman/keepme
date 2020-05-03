@@ -70,7 +70,14 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
+  if (!req.session.isAdmin && req.url.includes("admin")) {
+    return res.redirect("/");
+  } else next();
+});
+
+app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.isAdmin = req.session.isAdmin;
   next();
 });
 
@@ -80,23 +87,25 @@ app.use("/admin", adminRoutes);
 
 app.use(errorController.get404);
 
-User.hasMany(Note, { constraints: true, onDelete: "cascade" });
-Note.belongsTo(User);
+User.hasMany(Note, { onDelete: "CASCADE" });
+Note.belongsTo(User, { onDelete: "CASCADE" });
 
 Note.belongsTo(Color);
 Color.hasMany(Note);
 
-User.hasMany(Tag, { constraints: true, onDelete: "cascade" });
-Tag.belongsTo(User);
+User.hasMany(Tag, { onDelete: "CASCADE" });
+Tag.belongsTo(User, { onDelete: "CASCADE" });
 
-Note.hasMany(Reminder), { constraints: true, onDelete: "cascade" };
-Reminder.belongsTo(Note);
+Note.hasMany(Reminder), { onDelete: "CASCADE" };
+Reminder.belongsTo(Note, { onDelete: "CASCADE" });
 
 Note.belongsToMany(Tag, {
   through: "tagged_note_item",
+  onDelete: "CASCADE",
 });
 Tag.belongsToMany(Note, {
   through: "tagged_note_item",
+  onDelete: "CASCADE",
 });
 
 const isForceSync = process.env.FORCE_SYNC;

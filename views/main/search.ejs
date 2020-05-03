@@ -5,16 +5,34 @@
     <%- include('../includes/navigation.ejs') %>
 
     <main class="main">
-        <form action="/archive-note" method="POST" class="action-form flex">
-            <input name="searchTerm" type="text" class="search-input">
-            <button class="add-button btn" type="submit">
-                <span class="add-button-label">Search</span>
-            </button>
+        <form action="/search" method="POST" class="action-form search-form">
+            <div class="flex">
+                <div class="search-input-container">
+                    <img class="icon" src="/img/search.svg" alt="brush">
+                    <input value="<% if (searchTerm) { %><%= searchTerm %><% } %>" name="searchTerm" type="text"
+                        required class="search-input">
+                </div>
+                <button class="add-button btn" type="submit">
+                    <span class="add-button-label">Search</span>
+                </button>
+            </div>
+            <h2 class="search-title">Filters:</h2>
+            <div class="flex-align-center filter-item">
+                <input <% if (withTitle) { %>checked<% } %> type="checkbox" name="filters" value="withTitle"
+                    id="withTitle">
+                <label class="label" for="withTitle">with title</label>
+            </div>
+            <div class="flex-align-center filter-item">
+                <input <% if (includeArchive) { %>checked<% } %> type="checkbox" name="filters" value="includeArchive"
+                    id="includeArchive">
+                <label class="label" for="includeArchive">include archived notes</label>
+            </div>
         </form>
         <% if (notes.length > 0) { %>
         <div class="notes-container">
             <% for (let note of notes) { %>
-            <article class="note--item" style="background-color:<%= note.dataValues.color.dataValues.hash %>;">
+            <article class="note--item" <% if (note.dataValues.color) { %>
+                style="background-color:<%= note.dataValues.color.dataValues.hash %>;" <% } %>>
                 <div class="note--main">
                     <div class="note--body">
                         <% if (note.title) { %>

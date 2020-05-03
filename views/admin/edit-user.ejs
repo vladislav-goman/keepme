@@ -1,0 +1,48 @@
+<%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <main class="main">
+        <div class="flex-column">
+
+            <form class="form margin-top-sm" action="/admin/edit-user" method="POST">
+                <h1 class="title">Edit User</h1>
+                <div class="form-control">
+                    <img class="icon" src="/img/mail.svg" alt="Login">
+                    <input value="<% if (currentUser.dataValues.email) { %><%= currentUser.dataValues.email %><% } %>"
+                        class="input input-white" type="email" name="email" id="email" placeholder="E-Mail">
+                </div>
+                <div class="form-control">
+                    <img class="icon" src="/img/name.svg" alt="Login">
+                    <input value="<% if (currentUser.dataValues.login) { %><%= currentUser.dataValues.login %><% } %>"
+                        class="input input-white" type="text" name="login" id="login" placeholder="Login">
+                </div>
+                <% if (errorMessage) { %>
+                <div class="user-message user-message--error"><%= errorMessage %></div>
+                <% } %>
+                <input value="<%= currentUser.dataValues.id %>" type="hidden" name="userId">
+                <button class="btn login-button" type="submit">Submit</button>
+            </form>
+
+            <div class="admin-actions">
+                <h1 class="title">Actions</h1>
+                <form class="admin-action-form" action="/admin/delete-user" method="POST">
+                    <input type="hidden" name="userId" value="<%= currentUser.dataValues.id %>">
+                    <button type="submit" class="btn danger admin-action">Delete Profile</button>
+                </form>
+                <form class="admin-action-form" action="/admin/clear-user-notes" method="POST">
+                    <input type="hidden" name="userId" value="<%= currentUser.dataValues.id %>">
+                    <button type="submit" class="btn warning admin-action">Empty Notes</button>
+                </form>
+                <form class="admin-action-form" action="/admin/clear-user-tags" method="POST">
+                    <input type="hidden" name="userId" value="<%= currentUser.dataValues.id %>">
+                    <button type="submit" class="btn warning admin-action">Empty Tags</button>
+                </form>
+            </div>
+
+        </div>
+
+    </main>
+    <%- include('../includes/end.ejs') %>

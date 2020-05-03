@@ -62,4 +62,6 @@ router.post("/delete-reminder", mainController.postDeleteReminder);
 
 router.get("/search", mainController.getSearch);
 
+router.post("/search", mainController.postSearch);
+
 module.exports = router;

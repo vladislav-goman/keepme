@@ -149,6 +149,12 @@ form {
   }
 }
 
+@media screen and (max-width: 400px) {
+  .header-icon {
+    height: 1rem;
+  }
+}
+
 .header-label {
   color: #000000;
   transition: .3s all;
@@ -165,8 +171,8 @@ form {
   padding: 0.25rem 1rem;
   text-decoration: none;
   font: inherit;
-  border: 1px solid #FF9F1C;
-  color: #FF9F1C;
+  border: 1px solid #2BDE0F;
+  color: #2BDE0F;
   background: white;
   border-radius: 3px;
   cursor: pointer;
@@ -175,23 +181,34 @@ form {
 
 .btn:hover,
 .btn:active {
-  background-color: #FF9F1C;
+  background-color:#2BDE0F;
   color: white;
 }
 
 .btn.danger {
-  color:  #d9534f ;
-  border-color:  #d9534f ;
+  color: #d9534f ;
+  border-color: #d9534f ;
 }
 
 .btn.warning { 
-  color:  #f0ad4e ;
-  border-color:  #f0ad4e ;
+  color: #f0ad4e ;
+  border-color: #f0ad4e ;
 }
 
 .btn.warning:hover,
 .btn.warning:active {
-  background:  #f0ad4e ;
+  background: #f0ad4e ;
+  color: white;
+}
+
+.btn.info { 
+  color: #17a2b8  ;
+  border-color: #17a2b8;
+}
+
+.btn.info:hover,
+.btn.info:active {
+  background: #17a2b8  ;
   color: white;
 }
 
@@ -301,6 +318,16 @@ form {
   }
 }
 
+.admin-link {
+  width: 100%;  
+  margin-bottom: 1rem;
+}
+
+.admin-action {
+  width: 100%;  
+  margin-top: 1rem;
+}
+
 .grid-form {
   width: 45rem;
   max-width: 95%;
@@ -311,6 +338,18 @@ form {
   padding: 2rem;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
+}
+
+.admin-actions {
+  width: 25rem;
+  max-width: 95%;
+  margin: auto;
+  background-color: #f5f5f5;
+  border-radius: 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
 }
 
 @media screen and (max-width: 900px) {
@@ -419,7 +458,7 @@ form {
 }
 
 .textarea:focus {
-  border-color: #FF9F1C;
+  border-color: #2BDE0F;
 }
 
 .input {
@@ -437,7 +476,7 @@ form {
 }
 
 .input:focus {
-  border-color: #FF9F1C;
+  border-color: #2BDE0F;
 }
 
 .login-button {
@@ -445,7 +484,7 @@ form {
   margin-top: 1rem;
   border-radius: 2rem;
   height: 3rem;
-  border: 2px solid #FF9F1C;
+  border: 2px solid #2BDE0F;
 }
 
 .sign-up-link {
@@ -455,7 +494,7 @@ form {
 }
 
 .sign-up-link:hover {
-  color: #FF9F1C;
+  color: #2BDE0F;
   text-decoration: underline;
 }
 
@@ -518,7 +557,7 @@ form {
   height: 2rem;
   width: 2rem;
   margin-right: 1rem;
-  fill: #FF9F1C;
+  fill: #2BDE0F;
   transition: .3s all;
 }
 
@@ -633,14 +672,14 @@ form {
   border-radius: 2rem;
   margin: .5rem;
   background-color: #ffffff;
-  color: #FF9F1C;
-  border: 1px solid #FF9F1C;
+  color: #2BDE0F;
+  border: 1px solid #2BDE0F;
   transition: .3s all;
   cursor: pointer;
 }
 
 .tag-item:hover {
-  background-color: #FF9F1C;
+  background-color: #2BDE0F;
   color: #ffffff;
 }
 
@@ -669,6 +708,17 @@ form {
   margin-top: 1rem;
 }
 
+.row-admin {
+  display: grid;
+  grid-template-columns: 100px 1fr 1fr 100px 100px 100px;
+  width: 100%;
+  padding: 0 2rem;
+}
+
+.margin-top-sm {
+  margin-top: 1rem;
+}
+
 .row-4 {
   display: grid;
   grid-template-columns: 1fr 3fr 100px 100px;
@@ -691,7 +741,7 @@ form {
 }
 
 @media screen and (max-width: 900px) {
-  .row-4, .row-5-reminder, .row-6-reminder {
+  .row-4, .row-5-reminder, .row-6-reminder, .row-5 {
     padding: 0;
     min-width: 800px;
   }
@@ -771,4 +821,31 @@ form {
   font-size: 18px;
   border: 2px solid transparent;
   transition: .3s all;
+}
+
+.search-input-container {
+  position: relative;
+  width: 100%;
+  margin-right: 3rem;
+}
+
+.search-form {
+  margin-bottom: 2rem;
+}
+
+.search-title {
+  margin: 1rem 0;
+}
+
+@media screen and (max-width: 400px) {
+  .search-input-container {
+    margin-right: 1rem;
+  }
+}
+
+.row-5 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 100px 100px;
+  width: 100%;
+  padding: 0 2rem;
 }

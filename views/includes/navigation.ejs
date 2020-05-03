@@ -27,6 +27,12 @@
             </a>
         </div>
         <div class="main-header__item-list flex-end-mobile">
+            <% if (isAdmin) { %>
+                <a class="header-link <%= path === '/admin' ? 'active' : '' %>" href="/admin">
+                    <img src="/img/admin.svg" alt="Admin Panel" class="header-icon">
+                    <span class="header-label">Admin</span>
+                </a>
+            <% } %>
             <label class="header-link" for="logout-btn">
                 <img src="/img/logout.svg" alt="Home page" class="header-icon">
                 <form action="/auth/logout" method="post">

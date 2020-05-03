@@ -18,10 +18,10 @@ exports.getIndex = async (req, res, next) => {
         [Op.is]: true,
       },
     },
+    order: [["updatedAt", "DESC"]],
   });
 
   res.render("main/index", {
-    prods: [],
     pageTitle: "Home",
     path: "/",
     notes: userNotes,
@@ -39,6 +39,7 @@ exports.getNotes = async (req, res, next) => {
         [Op.not]: true,
       },
     },
+    order: [["updatedAt", "DESC"]],
   });
   res.render("main/notes-list", {
     pageTitle: "Your Notes",
@@ -58,7 +59,9 @@ exports.getAddNote = async (req, res, next) => {
 
   const currentUser = await User.findByPk(userId);
   const colors = await Color.findAll();
-  const userTags = await currentUser.getTags();
+  const userTags = await currentUser.getTags({
+    order: [["updatedAt", "DESC"]],
+  });
 
   res.render("main/add-note", {
     pageTitle: "Add Note",
@@ -143,7 +146,9 @@ exports.getEditNote = async (req, res, next) => {
   const { noteId } = req.params;
   const { id: userId } = req.session.user;
   const currentUser = await User.findByPk(userId);
-  const userTags = await currentUser.getTags();
+  const userTags = await currentUser.getTags({
+    order: [["updatedAt", "DESC"]],
+  });
 
   const [noteData] = await currentUser.getNotes({
     where: { id: noteId },
@@ -160,7 +165,9 @@ exports.getEditNote = async (req, res, next) => {
   }
 
   const colors = await Color.findAll();
-  const appliedTags = await noteData.getTags();
+  const appliedTags = await noteData.getTags({
+    order: [["updatedAt", "DESC"]],
+  });
   const appliedTagsIdArray = appliedTags.map((tag) => tag.dataValues.id);
   const {
     dataValues: { title, text, colorId },
@@ -224,6 +231,7 @@ exports.getArchive = async (req, res, next) => {
         [Op.is]: true,
       },
     },
+    order: [["updatedAt", "DESC"]],
   });
   res.render("main/archive", {
     pageTitle: "Achieved Notes",
@@ -235,7 +243,7 @@ exports.getArchive = async (req, res, next) => {
 exports.getTags = async (req, res, next) => {
   const { id: userId } = req.session.user;
   const user = await User.findByPk(userId);
-  const userTags = await user.getTags();
+  const userTags = await user.getTags({ order: [["updatedAt", "DESC"]] });
   const editMode = req.query.action;
 
   res.render("main/tags-list", {
@@ -293,12 +301,17 @@ exports.getTag = async (req, res, next) => {
         [Op.not]: true,
       },
     },
+    order: [["updatedAt", "DESC"]],
   });
-  const [currentTag] = await currentUser.getTags({ where: { id: tagId } });
+  const [currentTag] = await currentUser.getTags({
+    where: { id: tagId },
+    order: [["updatedAt", "DESC"]],
+  });
   if (!currentTag) res.redirect("/notes");
 
   const tagNotes = await currentTag.getNotes({
     attributes: ["id"],
+    order: [["updatedAt", "DESC"]],
   });
   const tagNotesIds = tagNotes.map(({ dataValues }) => dataValues.id);
 
@@ -439,7 +452,10 @@ exports.getReminders = async (req, res, next) => {
   const { id: userId } = req.session.user;
   const editMode = req.query.action;
   const user = await User.findByPk(userId);
-  const userNotes = await user.getNotes({ include: [Reminder, Color] });
+  const userNotes = await user.getNotes({
+    include: [Reminder, Color],
+    order: [["updatedAt", "DESC"]],
+  });
   const remindNotes = userNotes.filter(
     ({ dataValues }) => dataValues.reminders.length
   );
@@ -464,7 +480,7 @@ exports.getEditReminder = async (req, res, next) => {
   });
 
   if (!userReminder) {
-    res.redirect("/notes");
+    res.redirect("/reminders");
   }
 
   let errorMessage = req.flash("error");
@@ -495,8 +511,8 @@ exports.postEditReminder = async (req, res, next) => {
   }
 
   if (!timestamp) {
-    req.flash("error", "Tag must have a name!");
-    return res.redirect("/edit-reminder");
+    req.flash("error", "You must specify remind date!");
+    return res.redirect(`/edit-reminder/${reminderId}`);
   }
   if (!reminder) {
     res.redirect("/reminders");
@@ -531,9 +547,70 @@ exports.getSearch = async (req, res, next) => {
   const currentUser = await User.findByPk(userId);
 
   res.render("main/search", {
-    prods: [],
     pageTitle: "Search",
     path: "/search",
-    notes: []
+    notes: [],
+    searchTerm: false,
+    includeArchive: false,
+    withTitle: false,
+  });
+};
+
+exports.postSearch = async (req, res, next) => {
+  const { id: userId } = req.session.user;
+  const { filters, searchTerm } = req.body;
+  let withTitle = false,
+    includeArchive = false;
+  const currentUser = await User.findByPk(userId);
+
+  if (filters && filters.length) {
+    withTitle = filters.includes("withTitle");
+    includeArchive = filters.includes("includeArchive");
+  } else {
+    withTitle = filters === "withTitle";
+    includeArchive = filters === "includeArchive";
+  }
+
+  let titleQuery = {
+    [Op.substring]: searchTerm,
+    [Op.not]: null,
+  };
+
+  if (withTitle) {
+    titleQuery = {
+      [Op.substring]: searchTerm,
+      [Op.not]: null,
+    };
+  }
+
+  const query = {
+    [Op.or]: {
+      title: titleQuery,
+      text: {
+        [Op.substring]: searchTerm,
+      },
+    },
+    isArchived: {
+      [Op.not]: true,
+    },
+  };
+
+  if (includeArchive) {
+    delete query.isArchived;
+  }
+
+  const foundNotes = await currentUser.getNotes({
+    where: query,
+    include: [Color, Tag],
+    order: [["updatedAt", "DESC"]],
+  });
+
+  res.render("main/search", {
+    pageTitle: "Search",
+    path: "/search",
+    notes: foundNotes,
+    searchTerm,
+    includeArchive,
+    withTitle,
   });
 };

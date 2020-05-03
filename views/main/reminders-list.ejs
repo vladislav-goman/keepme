@@ -8,7 +8,7 @@
         <div class="flex-between">
             <h2 calss="title">Your Reminders:</h2>
             <% if (editMode) { %>
-            <a class="btn btn-primary" href="/reminders">Normal View</a>
+            <a class="btn btn-primary" href="/reminders">Overview</a>
             <% } else { %>
             <a class="btn warning" href="/reminders?action=edit">Edit Reminders</a>
             <% } %>
@@ -32,8 +32,8 @@
             <% for (let reminder of note.dataValues.reminders) { %>
             <div class="<% if (editMode) { %>row-6-reminder<% } else { %>row-5-reminder<% } %>">
                 <div class="cell flex-center">
-                    <span class="color-circle"
-                        style="background-color:<%= note.dataValues.color.dataValues.hash %>;"></span>
+                    <span class="color-circle" <% if (note.dataValues.color) { %>
+                        style="background-color:<%= note.dataValues.color.dataValues.hash %>;" <% } %>></span>
                 </div>
                 <div class="cell"><%= note.dataValues.title %></div>
                 <% if (!editMode) { %>

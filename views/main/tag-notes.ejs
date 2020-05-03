@@ -10,7 +10,8 @@
         <% if (notes.length > 0) { %>
         <div class="notes-container">
             <% for (let note of notes) { %>
-            <article class="note--item" style="background-color:<%= note.dataValues.color.dataValues.hash %>;">
+            <article class="note--item" <% if (note.dataValues.color) { %>
+                style="background-color:<%= note.dataValues.color.dataValues.hash %>;" <% } %>>
                 <div class="note--main">
                     <div class="note--body">
                         <% if (note.title) { %>

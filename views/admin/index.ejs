@@ -1,0 +1,40 @@
+<%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <main class="main">
+        <h1 class="title">Welcome to admin tool panel, <%= currentUser.dataValues.login %>!</h1>
+        <a class="btn admin-link info" href="/admin/colors">
+            <span class="add-button-label">Manage colors</span>
+        </a>
+
+        <% if (users.length > 0) { %>
+            <div class="table-grid">
+                <div class="row-admin">
+                    <div class="cell flex-center head-cell">id</div>
+                    <div class="cell flex-center head-cell">Email</div>
+                    <div class="cell flex-center head-cell">Login</div>
+                    <div class="cell flex-center head-cell">Notes</div>
+                    <div class="cell flex-center head-cell">Tags</div>
+                    <div class="cell flex-center head-cell">Edit</div>
+                </div>
+                <% for (let user of users) { %>
+                <div class="row-admin">
+                    <div class="cell flex-center"><%= user.dataValues.id %></div>
+                    <div class="cell flex-center"><%= user.dataValues.email %></div>
+                    <div class="cell flex-center"><%= user.dataValues.login %></div>
+                    <div class="cell flex-center"><%= user.dataValues.notes.length %></div>
+                    <div class="cell flex-center"><%= user.dataValues.tags.length %></div>
+                    <div class="cell flex-center">
+                        <a class="btn warning" href="/admin/edit-user/<%= user.dataValues.id %>">Edit</a>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+            <% } else { %>
+            <h1>No users except you have registered!</h1>
+            <% } %>
+
+    </main>
+    <%- include('../includes/end.ejs') %>
