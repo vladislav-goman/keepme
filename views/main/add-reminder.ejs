@@ -9,20 +9,20 @@
             <form class="form" action="<% if (editMode) { %>/edit-reminder<% } else { %>/add-reminder<% } %>"
                 method="POST">
                 <div class="container">
-                    <h1 class="title"><% if (editMode) { %>Edit Reminder<% } else { %>Remind me to:<% } %></h1>
+                    <h1 class="form-title"><% if (editMode) { %>Edit Reminder<% } else { %>Remind me to:<% } %></h1>
                     <div class="form-control">
                         <span class="note-remind-title"><%= note.dataValues.title %></span>
                         <span class="note-remind-description"><%= note.dataValues.text %></span>
                     </div>
                     <div class="form-control">
                         <img class="icon" src="/img/reminder.svg" alt="brush">
-                        <input value="<% if (editMode) { %><%= reminder.remindText %><% } %>" class="input input-white" type="text"
-                            name="remindText" id="remindText" placeholder="remindText">
+                        <input value="<% if (editMode) { %><%= reminder.remindText %><% } %>" class="input input-white"
+                            type="text" name="remindText" id="remindText" placeholder="Reminder description">
                     </div>
                     <div class="form-control">
-                        <label class="label" for="description">Remind date:</label>
-                        <input value="<% if (editMode) { %><%= reminder.timestamp %><% } %>" class="input input-white" type="date"
-                            name="timestamp" id="timestamp">
+                        <img class="icon" src="/img/calendar.svg" alt="calendar">
+                        <input value="<% if (editMode) { %><%= reminder.timestamp %><% } %>" class="input input-white"
+                            type="date" name="timestamp" id="timestamp">
                     </div>
                     <input value="<%= note.dataValues.id %>" type="hidden" name="noteId">
                     <% if (editMode) { %>
@@ -37,6 +37,6 @@
             </form>
 
         </div>
-    <div class="mobile-offset"></div>
-</main>
+
+    </main>
     <%- include('../includes/end.ejs') %>

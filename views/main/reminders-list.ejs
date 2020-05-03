@@ -14,7 +14,7 @@
             <% } %>
         </div>
         <% if (notes.length > 0) { %>
-        <div class="flex-column">
+        <div class="table-grid">
             <div class="<% if (editMode) { %>row-6-reminder<% } else { %>row-5-reminder<% } %>">
                 <div class="cell head-cell flex-center">#</div>
                 <div class="cell head-cell">Note Name</div>
@@ -59,6 +59,6 @@
         <% } else { %>
         <h1 class="title">No Reminders created yet!</h1>
         <% } %>
-    <div class="mobile-offset"></div>
-</main>
+
+    </main>
     <%- include('../includes/end.ejs') %>

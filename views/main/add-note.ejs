@@ -9,7 +9,7 @@
             <form class="form grid-form" action="<% if (editMode) { %>/edit-note<% } else { %>/add-note<% } %>"
                 method="POST">
                 <div class="container">
-                    <h1 class="title"><% if (editMode) { %>Edit Note<% } else { %>What's new?<% } %></h1>
+                    <h1 class="form-title"><% if (editMode) { %>Edit Note<% } else { %>What's new?<% } %></h1>
                     <div class="form-control">
                         <img class="icon" src="/img/name.svg" alt="brush">
                         <input value="<% if (editMode) { %><%= title %><% } %>" class="input input-white" type="text"
@@ -77,7 +77,7 @@
             </form>
 
         </div>
-        <div class="mobile-offset"></div>
+
     </main>
 
     <script src="/js/addNoteScript.js"></script>

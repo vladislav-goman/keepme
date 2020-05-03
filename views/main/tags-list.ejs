@@ -23,7 +23,7 @@
         </div>
         <% if (tags.length > 0) { %>
         <% if (editMode) { %>
-        <div class="flex-column ">
+        <div class="table-grid">
             <div class="row-4">
                 <div class="cell head-cell">Name</div>
                 <div class="cell head-cell">Description</div>
@@ -58,6 +58,6 @@
         <% } else { %>
         <h1>No Tags created yet!</h1>
         <% } %>
-    <div class="mobile-offset"></div>
-</main>
+
+    </main>
     <%- include('../includes/end.ejs') %>

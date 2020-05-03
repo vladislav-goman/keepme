@@ -3,10 +3,15 @@
 
 <body>
     <%- include('../includes/navigation.ejs') %>
+
     <main class="main">
-        <h1 class="title">Welcome, <%= user.dataValues.login %></h1>
+        <form action="/archive-note" method="POST" class="action-form flex">
+            <input name="searchTerm" type="text" class="search-input">
+            <button class="add-button btn" type="submit">
+                <span class="add-button-label">Search</span>
+            </button>
+        </form>
         <% if (notes.length > 0) { %>
-        <h4 class="title">Here are items you've pinned:</h4>
         <div class="notes-container">
             <% for (let note of notes) { %>
             <article class="note--item" style="background-color:<%= note.dataValues.color.dataValues.hash %>;">
@@ -57,7 +62,7 @@
             <% } %>
         </div>
         <% } else { %>
-        <h1 class="title">Your pinned notes would appear here!</h1>
+        <h1 class="title">No notes Found!</h1>
         <% } %>
 
     </main>

@@ -6,10 +6,9 @@
 
     <main class="main">
         <div class="flex">
-            <form class="form" action="<% if (editMode) { %>/edit-tag<% } else { %>/add-tag<% } %>"
-                method="POST">
+            <form class="form" action="<% if (editMode) { %>/edit-tag<% } else { %>/add-tag<% } %>" method="POST">
                 <div class="container">
-                    <h1 class="title"><% if (editMode) { %>Edit Tag<% } else { %>Create Tag<% } %></h1>
+                    <h1 class="form-title"><% if (editMode) { %>Edit Tag<% } else { %>Create Tag<% } %></h1>
                     <div class="form-control">
                         <img class="icon" src="/img/name.svg" alt="brush">
                         <input value="<% if (editMode) { %><%= tag.name %><% } %>" class="input input-white" type="text"
@@ -32,6 +31,6 @@
             </form>
 
         </div>
-    <div class="mobile-offset"></div>
-</main>
+
+    </main>
     <%- include('../includes/end.ejs') %>

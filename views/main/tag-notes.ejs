@@ -49,7 +49,7 @@
                         </button>
                     </form>
                     <form action="/add-reminder/<%= note.dataValues.id %>" method="GET" class="action-form">
-                            <button class="action-button flex" type="submit">
+                        <button class="action-button flex" type="submit">
                             <img src="/img/reminder.svg" alt="Remind" class="action-img">
                         </button>
                     </form>
@@ -58,8 +58,8 @@
             <% } %>
         </div>
         <% } else { %>
-        <h1 class="title"1>No notes Found!</h1>
+        <h1 class="title">No notes Found!</h1>
         <% } %>
-    <div class="mobile-offset"></div>
-</main>
+
+    </main>
     <%- include('../includes/end.ejs') %>

@@ -5,6 +5,7 @@
     <%- include('../includes/navigation.ejs') %>
 
     <main class="main">
+        <h1 class="title">Archive</h1>
         <% if (notes.length > 0) { %>
         <div class="notes-container">
             <% for (let note of notes) { %>
@@ -40,6 +41,6 @@
         <% } else { %>
         <h1 class="title">No notes in Archive!</h1>
         <% } %>
-    <div class="mobile-offset"></div>
-</main>
+
+    </main>
     <%- include('../includes/end.ejs') %>

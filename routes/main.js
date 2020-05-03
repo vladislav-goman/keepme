@@ -58,4 +58,8 @@ router.get("/edit-reminder/:reminderId", mainController.getEditReminder);
 
 router.post("/delete-reminder", mainController.postDeleteReminder);
 
+// Search
+
+router.get("/search", mainController.getSearch);
+
 module.exports = router;

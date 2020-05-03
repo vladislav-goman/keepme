@@ -525,3 +525,15 @@ exports.postDeleteReminder = async (req, res, next) => {
     res.redirect("/reminders");
   });
 };
+
+exports.getSearch = async (req, res, next) => {
+  const { id: userId } = req.session.user;
+  const currentUser = await User.findByPk(userId);
+
+  res.render("main/search", {
+    prods: [],
+    pageTitle: "Search",
+    path: "/search",
+    notes: []
+  });
+};

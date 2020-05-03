@@ -13,6 +13,7 @@ const forceHTTPS = require("./middleware/forceHTTPS");
 const errorController = require("./controllers/error");
 const sequelize = require("./util/database");
 const reminderController = require("./util/reminderController");
+const appDataInitialize = require("./util/appDataInitialize");
 
 const User = require("./models/user");
 const Note = require("./models/note");
@@ -98,67 +99,22 @@ Tag.belongsToMany(Note, {
   through: "tagged_note_item",
 });
 
-const syncConfig = process.env.FORCE_SYNC ? { force: true } : {};
+const isForceSync = process.env.FORCE_SYNC;
+
+const syncConfig = isForceSync ? { force: true } : {};
 
 sequelize
   .sync(syncConfig)
-  .then(() => {
-    if (process.env.FORCE_SYNC) {
-      Color.create({
-        name: "White",
-        hash: "#ffffff",
-      });
-      Color.create({
-        name: "Gray",
-        hash: "#e8eaed",
-      });
-      Color.create({
-        name: "Brown",
-        hash: "#e6c9a8",
-      });
-      Color.create({
-        name: "Pink",
-        hash: "#fdcfe8",
-      });
-      Color.create({
-        name: "Purple",
-        hash: "#d7aefb",
-      });
-      Color.create({
-        name: "Dark Blue",
-        hash: "#aecbfa",
-      });
-      Color.create({
-        name: "Blue",
-        hash: "#cbf0f8",
-      });
-      Color.create({
-        name: "Salad",
-        hash: "#a7ffeb",
-      });
-      Color.create({
-        name: "Green",
-        hash: "#ccff90",
-      });
-      Color.create({
-        name: "Yellow",
-        hash: "#fff475",
-      });
-      Color.create({
-        name: "Orange",
-        hash: "#fbbc04",
-      });
-      Color.create({
-        name: "Red",
-        hash: "#f28b82",
-      });
-    }
-  })
   .then(() => {
     setInterval(reminderController, 1000 * 60 * 60);
   })
   .then(() => {
     app.listen(process.env.PORT || 3000);
+  })
+  .then(() => {
+    if (isForceSync) {
+      appDataInitialize();
+    }
   })
   .catch((err) => {
     console.log(err);
