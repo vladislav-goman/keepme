@@ -52,6 +52,22 @@
                         <% } %>
                     </div>
                 </div>
+                <% if (note.dataValues.isArchived > 0) { %>
+                <div class="actions">
+                    <form action="/archive-note" method="POST" class="action-form">
+                        <input name="noteId" value="<%= note.dataValues.id %>" type="hidden">
+                        <button class="action-button flex" type="submit">
+                            <img src="/img/upload.svg" alt="Pin" class="action-img">
+                        </button>
+                    </form>
+                    <form action="/delete-note" method="POST" class="action-form">
+                        <input name="noteId" value="<%= note.dataValues.id %>" type="hidden">
+                        <button class="action-button flex" type="submit">
+                            <img src="/img/delete.svg" alt="Pin" class="action-img">
+                        </button>
+                    </form>
+                </div>
+                <% } else { %>
                 <div class="actions">
                     <form action="/archive-note" method="POST" class="action-form flex">
                         <input name="noteId" value="<%= note.dataValues.id %>" type="hidden">
@@ -76,6 +92,7 @@
                         </button>
                     </form>
                 </div>
+                <% } %>
             </article>
             <% } %>
         </div>

@@ -710,6 +710,7 @@ form {
 
 .row-admin {
   display: grid;
+  position: relative;
   grid-template-columns: 100px 1fr 1fr 100px 100px 100px;
   width: 100%;
   padding: 0 2rem;
@@ -848,4 +849,12 @@ form {
   grid-template-columns: 1fr 1fr 1fr 100px 100px;
   width: 100%;
   padding: 0 2rem;
+}
+
+.admin-image {
+  position: absolute;
+  width: 2rem;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%) translateX(50%) rotate(-45deg);
 }

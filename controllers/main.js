@@ -571,33 +571,14 @@ exports.postSearch = async (req, res, next) => {
     includeArchive = filters === "includeArchive";
   }
 
-  let titleQuery = {
-    [Op.substring]: searchTerm,
-    [Op.not]: null,
-  };
-
-  if (withTitle) {
-    titleQuery = {
-      [Op.substring]: searchTerm,
-      [Op.not]: null,
-    };
-  }
-
   const query = {
     [Op.or]: {
-      title: titleQuery,
+      title: { [Op.substring]: searchTerm },
       text: {
         [Op.substring]: searchTerm,
       },
     },
-    isArchived: {
-      [Op.not]: true,
-    },
   };
-
-  if (includeArchive) {
-    delete query.isArchived;
-  }
 
   const foundNotes = await currentUser.getNotes({
     where: query,

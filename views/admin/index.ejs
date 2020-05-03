@@ -21,6 +21,9 @@
                 </div>
                 <% for (let user of users) { %>
                 <div class="row-admin">
+                    <% if (user.dataValues.isAdmin) { %>
+                        <img src="/img/king.svg" alt="King" class="admin-image">
+                    <% } %>
                     <div class="cell flex-center"><%= user.dataValues.id %></div>
                     <div class="cell flex-center"><%= user.dataValues.email %></div>
                     <div class="cell flex-center"><%= user.dataValues.login %></div>

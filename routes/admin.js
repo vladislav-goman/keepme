@@ -28,4 +28,6 @@ router.post('/clear-user-notes', adminController.postClearNotes);
 
 router.post('/clear-user-tags', adminController.postClearTags);
 
+router.post('/change-admin-role', adminController.postChangeAdminRole);
+
 module.exports = router;

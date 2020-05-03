@@ -40,6 +40,17 @@
                     <input type="hidden" name="userId" value="<%= currentUser.dataValues.id %>">
                     <button type="submit" class="btn warning admin-action">Empty Tags</button>
                 </form>
+                <% if (currentUser.dataValues.isAdmin) { %>
+                    <form class="admin-action-form" action="/admin/change-admin-role" method="POST">
+                        <input type="hidden" name="userId" value="<%= currentUser.dataValues.id %>">
+                        <button type="submit" class="btn danger admin-action">Remove admin permissions</button>
+                    </form>
+                <% } else { %>
+                    <form class="admin-action-form" action="/admin/change-admin-role" method="POST">
+                        <input type="hidden" name="userId" value="<%= currentUser.dataValues.id %>">
+                        <button type="submit" class="btn info admin-action">Promote to admin</button>
+                    </form>
+                <% } %>
             </div>
 
         </div>

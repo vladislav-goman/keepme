@@ -245,3 +245,16 @@ exports.postClearTags = async (req, res, next) => {
       res.redirect("/admin");
     });
 };
+
+exports.postChangeAdminRole = (req, res, next) => {
+  const { userId } = req.body;
+  User.findByPk(userId)
+    .then((user) => {
+      if (!user) return res.redirect("/admin");
+      user.isAdmin = !user.isAdmin;
+      return user.save();
+    })
+    .then(() => {
+      res.redirect("/admin");
+    });
+};
