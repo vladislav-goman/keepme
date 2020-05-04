@@ -1,8 +1,19 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const Color = require("../models/color");
+const Language = require("../models/language");
 
 module.exports = async () => {
+  Language.create({
+    name: "Русский",
+    shortName: "ru",
+    imageUrl: "/img/rus.svg",
+  });
+  Language.create({
+    name: "English",
+    shortName: "en",
+    imageUrl: "/img/en.svg",
+  });
   Color.create({
     name: "White",
     hash: "#ffffff",
@@ -58,6 +69,7 @@ module.exports = async () => {
     password: testHashedPassword,
     login: "Vladislav",
     isAdmin: true,
+    languageId: 1,
   }).then((currentUser) => {
     currentUser.createNote({
       title: "A Simple Component",
@@ -169,6 +181,7 @@ module.exports = async () => {
     email: "test@gmail.com",
     password: hashedPassword,
     login: "Anonym User",
+    languageId: 1,
   }).then((currentUser) => {
     currentUser.createNote({
       title: "Погулять с собакой",

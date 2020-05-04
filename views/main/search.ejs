@@ -13,7 +13,7 @@
                         required class="search-input">
                 </div>
                 <button class="add-button btn" type="submit">
-                    <span class="add-button-label">Search</span>
+                    <span class="add-button-label"><%- include('../includes/translate.ejs', {string: "search"}) %></span>
                 </button>
             </div>
         </form>
@@ -86,7 +86,7 @@
             <% } %>
         </div>
         <% } else { %>
-        <h1 class="title margin-top-sm">No notes Found!</h1>
+        <h1 class="title margin-top-sm"><%- include('../includes/translate.ejs', {string: "no_notes_found"}) %></h1>
         <% } %>
 
     </main>

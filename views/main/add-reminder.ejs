@@ -9,7 +9,9 @@
             <form class="form" action="<% if (editMode) { %>/edit-reminder<% } else { %>/add-reminder<% } %>"
                 method="POST">
                 <div class="container">
-                    <h1 class="form-title"><% if (editMode) { %>Edit Reminder<% } else { %>Remind me to:<% } %></h1>
+                    <h1 class="form-title">
+                        <% if (editMode) { %><%- include('../includes/translate.ejs', {string: "edit_reminder"}) %><% } else { %><%- include('../includes/translate.ejs', {string: "remind_me_to"}) %><% } %>
+                    </h1>
                     <div class="form-control">
                         <span class="note-remind-title"><%= note.dataValues.title %></span>
                         <span class="note-remind-description"><%= note.dataValues.text %></span>
@@ -17,7 +19,8 @@
                     <div class="form-control">
                         <img class="icon" src="/img/reminder.svg" alt="brush">
                         <input value="<% if (editMode) { %><%= reminder.remindText %><% } %>" class="input input-white"
-                            type="text" name="remindText" id="remindText" placeholder="Reminder description">
+                            type="text" name="remindText" id="remindText"
+                            placeholder="<%- include('../includes/translate.ejs', {string: "reminder_description"}) %>">
                     </div>
                     <div class="form-control">
                         <img class="icon" src="/img/calendar.svg" alt="calendar">
@@ -31,8 +34,8 @@
                     <% if (errorMessage) { %>
                     <div class="user-message user-message--error"><%= errorMessage %></div>
                     <% } %>
-                    <button class="btn login-button" type="submit"><% if (editMode) { %>Submit<% } else { %>Add
-                        Reminder<% } %></button>
+                    <button class="btn login-button"
+                        type="submit"><% if (editMode) { %><%- include('../includes/translate.ejs', {string: "submit"}) %><% } else { %><%- include('../includes/translate.ejs', {string: "add_reminder"}) %><% } %></button>
                 </div>
             </form>
 

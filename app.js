@@ -6,7 +6,6 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const helmet = require("helmet");
 const compression = require("compression");
-const morgan = require("morgan");
 
 const forceHTTPS = require("./middleware/forceHTTPS");
 
@@ -20,14 +19,11 @@ const Note = require("./models/note");
 const Color = require("./models/color");
 const Tag = require("./models/tag");
 const Reminder = require("./models/reminder");
+const Language = require("./models/language");
 
 const mainRoutes = require("./routes/main");
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
-
-const loggingStream = fs.createWriteStream(path.join(__dirname, "access.log"), {
-  flags: "a",
-});
 
 const app = express();
 
@@ -36,7 +32,6 @@ app.set("views", "views");
 
 app.use(helmet());
 app.use(compression());
-app.use(morgan("combined", { stream: loggingStream }));
 
 if (process.env.NODE_ENV === "production") {
   app.use(forceHTTPS);
@@ -76,6 +71,11 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
+  if (req.session && req.session.locale) {
+    res.locals.locale = req.session.locale;
+  } else {
+    res.locals.locale = "ru";
+  }
   res.locals.isAuthenticated = req.session.isLoggedIn;
   res.locals.isAdmin = req.session.isAdmin;
   next();
@@ -86,6 +86,9 @@ app.use("/auth", authRoutes);
 app.use("/admin", adminRoutes);
 
 app.use(errorController.get404);
+
+Language.hasMany(User);
+User.belongsTo(Language);
 
 User.hasMany(Note, { onDelete: "CASCADE" });
 Note.belongsTo(User, { onDelete: "CASCADE" });

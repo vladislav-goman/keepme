@@ -29,7 +29,7 @@ main {
 }
 
 .main {
-  margin-left: 155px;
+  margin-left: 190px;
   padding: 2rem;
 }
 
@@ -64,7 +64,7 @@ form {
   height: 100vh;
   background-color: #CBF3F0;
   box-shadow: 0 0 10px 0 rgba(0,0,0,.3);
-  width: 155px;
+  width: 190px;
   z-index: 100;
 }
 
@@ -754,7 +754,7 @@ form {
 @media screen and (max-width: 900px) {
   .row-4, .row-5-reminder, .row-6-reminder, .row-5, .row-admin {
     padding: 0;
-    min-width: 800px;
+    min-width: 1000px;
   }
 }
 
@@ -770,7 +770,7 @@ form {
 }
 
 .head-cell {
-  font-size: 26px;
+  font-size: 22px;
   color: #545454;
 }
 
@@ -867,4 +867,49 @@ form {
   top: 50%;
   left: 0;
   transform: translateY(-50%) translateX(50%) rotate(-45deg);
+}
+
+@media screen and (max-width: 900px) {
+  .admin-image {
+    width: 1rem;
+    left: 1rem;
+    transform: translateY(-150%) translateX(165%);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .margin-bottom-mobile {
+    margin-bottom: 1rem;
+  }
+}
+
+.locales-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+}
+
+.locale-button {
+  border: none;
+  padding: 0;
+  background-color: white;
+  cursor: pointer;
+  transition: .3s all;
+}
+
+.locale-form {
+  margin: .3rem;
+}
+
+.locale-button:hover {
+  box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
+}
+
+.locale-img {
+  width: 3rem;
+  height: 32px;
+  object-fit: cover;
 }

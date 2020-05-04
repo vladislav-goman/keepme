@@ -11,58 +11,64 @@
                 <path
                     d="m408 184h-136c-4.417969 0-8-3.582031-8-8v-136c0-22.089844-17.910156-40-40-40s-40 17.910156-40 40v136c0 4.417969-3.582031 8-8 8h-136c-22.089844 0-40 17.910156-40 40s17.910156 40 40 40h136c4.417969 0 8 3.582031 8 8v136c0 22.089844 17.910156 40 40 40s40-17.910156 40-40v-136c0-4.417969 3.582031-8 8-8h136c22.089844 0 40-17.910156 40-40s-17.910156-40-40-40zm0 0" />
             </svg>
-            <span class="add-button-label">Add Colors</span>
+            <span class="add-button-label"><%- include('../includes/translate.ejs', {string: "add_colors"}) %></span>
         </a>
         <div class="flex-between">
-            <h2 calss="title">Available colors:</h2>
+            <h2 calss="title"><%- include('../includes/translate.ejs', {string: "available_colors"}) %></h2>
             <% if (editMode) { %>
-            <a class="btn btn-primary" href="/admin/colors">Overview</a>
+            <a class="btn btn-primary"
+                href="/admin/colors"><%- include('../includes/translate.ejs', {string: "overview"}) %></a>
             <% } else { %>
-            <a class="btn warning" href="/admin/colors?action=edit">Edit Colors</a>
+            <a class="btn warning"
+                href="/admin/colors?action=edit"><%- include('../includes/translate.ejs', {string: "edit"}) %></a>
             <% } %>
         </div>
 
         <% if (colors.length > 0) { %>
-            <% if (editMode) { %>
-            <div class="table-grid">
-                <div class="row-5">
-                    <div class="cell head-cell">Name</div>
-                    <div class="cell head-cell">Hash</div>
-                    <div class="cell head-cell">Color sample</div>
-                    <div class="cell head-cell flex-center">Edit</div>
-                    <div class="cell head-cell flex-center">Delete</div>
+        <% if (editMode) { %>
+        <div class="table-grid">
+            <div class="row-5">
+                <div class="cell head-cell"><%- include('../includes/translate.ejs', {string: "name"}) %></div>
+                <div class="cell head-cell"><%- include('../includes/translate.ejs', {string: "hash"}) %></div>
+                <div class="cell head-cell"><%- include('../includes/translate.ejs', {string: "color_sample"}) %></div>
+                <div class="cell head-cell flex-center"><%- include('../includes/translate.ejs', {string: "edit"}) %>
                 </div>
-                <% for (let color of colors) { %>
-                <div class="row-5">
-                    <div class="cell flex-center"><%= color.dataValues.name %></div>
-                    <div class="cell flex-center"><%= color.dataValues.hash %></div>
-                    <div class="cell flex-center" style="background-color:<%= color.dataValues.hash %>;"></div>
-                    <div class="cell flex-center">
-                        <a class="btn warning" href="/admin/edit-color/<%= color.dataValues.id %>">Edit</a>
-                    </div>
-                    <div class="cell flex-center">
-                        <form action="/admin/delete-color" method="POST">
-                            <input type="hidden" name="colorId" value="<%= color.dataValues.id %>">
-                            <button type="submit" class="btn danger">Delete</button>
-                        </form>
-                    </div>
+                <div class="cell head-cell flex-center"><%- include('../includes/translate.ejs', {string: "delete"}) %>
                 </div>
-                <% } %>
             </div>
-            <% } else { %>
-                <div class="flex-start">
-                    <% for (let color of colors) { %>
-                    <article class="sample" style="background-color:<%= color.dataValues.hash %>;">
-                        <span class="sample-name">
-                            <%= color.dataValues.name %>
-                        </span>
-                    </article>
-                    <% } %>
+            <% for (let color of colors) { %>
+            <div class="row-5">
+                <div class="cell flex-center"><%= color.dataValues.name %></div>
+                <div class="cell flex-center"><%= color.dataValues.hash %></div>
+                <div class="cell flex-center" style="background-color:<%= color.dataValues.hash %>;"></div>
+                <div class="cell flex-center">
+                    <a class="btn warning"
+                        href="/admin/edit-color/<%= color.dataValues.id %>"><%- include('../includes/translate.ejs', {string: "edit"}) %></a>
                 </div>
+                <div class="cell flex-center">
+                    <form action="/admin/delete-color" method="POST">
+                        <input type="hidden" name="colorId" value="<%= color.dataValues.id %>">
+                        <button type="submit"
+                            class="btn danger"><%- include('../includes/translate.ejs', {string: "delete"}) %></button>
+                    </form>
+                </div>
+            </div>
             <% } %>
-            <% } else { %>
-            <h1>No Colors created yet!</h1>
+        </div>
+        <% } else { %>
+        <div class="flex-start">
+            <% for (let color of colors) { %>
+            <article class="sample" style="background-color:<%= color.dataValues.hash %>;">
+                <span class="sample-name">
+                    <%= color.dataValues.name %>
+                </span>
+            </article>
             <% } %>
+        </div>
+        <% } %>
+        <% } else { %>
+        <h1>No Colors created yet!</h1>
+        <% } %>
 
     </main>
     <%- include('../includes/end.ejs') %>

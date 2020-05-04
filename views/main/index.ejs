@@ -4,9 +4,21 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
     <main class="main">
-        <h1 class="title">Welcome, <%= user.dataValues.login %></h1>
+        <div class="locales-container">
+            <% for (let curLocale of locales) { %>
+            <% if (curLocale.dataValues.shortName !== locale) { %> 
+            <form class="locale-form" action="/change-locale" method="post">
+                <input type="hidden" name="localeId" value="<%= curLocale.dataValues.id %>">
+                <button type="submit" class="locale-button">
+                    <img src="<%= curLocale.dataValues.imageUrl %>" alt="<%= curLocale.dataValues.name %>" class="locale-img" />
+                </button>
+            </form>
+            <% } %>
+            <% } %>
+        </div>
+        <h1 class="title"><%- include('../includes/translate.ejs', {string: "welcome"}) %> <%= user.dataValues.login %></h1>
         <% if (notes.length > 0) { %>
-        <h4 class="title">Here are items you've pinned:</h4>
+        <h4 class="title"><%- include('../includes/translate.ejs', {string: "here_are_items_youve_pinned"}) %></h4>
         <div class="notes-container">
             <% for (let note of notes) { %>
             <%- include('../includes/note.ejs', {note: note, home: true}) %>

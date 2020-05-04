@@ -4,20 +4,20 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
     <main class="main">
-        <h1 class="title">Welcome to admin tool panel, <%= currentUser.dataValues.login %>!</h1>
+        <h1 class="title margin-bottom-mobile"><%- include('../includes/translate.ejs', {string: "welcome"}) %><%= currentUser.dataValues.login %>!</h1>
         <a class="btn admin-link info" href="/admin/colors">
-            <span class="add-button-label">Manage colors</span>
+            <span class="add-button-label"><%- include('../includes/translate.ejs', {string: "manage_colors"}) %></span>
         </a>
 
         <% if (users.length > 0) { %>
             <div class="table-grid">
                 <div class="row-admin">
                     <div class="cell flex-center head-cell">id</div>
-                    <div class="cell flex-center head-cell">Email</div>
-                    <div class="cell flex-center head-cell">Login</div>
-                    <div class="cell flex-center head-cell">Notes</div>
-                    <div class="cell flex-center head-cell">Tags</div>
-                    <div class="cell flex-center head-cell">Edit</div>
+                    <div class="cell flex-center head-cell"><%- include('../includes/translate.ejs', {string: "email"}) %></div>
+                    <div class="cell flex-center head-cell"><%- include('../includes/translate.ejs', {string: "login"}) %></div>
+                    <div class="cell flex-center head-cell"><%- include('../includes/translate.ejs', {string: "notes"}) %></div>
+                    <div class="cell flex-center head-cell"><%- include('../includes/translate.ejs', {string: "tags"}) %></div>
+                    <div class="cell flex-center head-cell"><%- include('../includes/translate.ejs', {string: "edit"}) %></div>
                 </div>
                 <% for (let user of users) { %>
                 <div class="row-admin">
@@ -30,7 +30,7 @@
                     <div class="cell flex-center"><%= user.dataValues.notes.length %></div>
                     <div class="cell flex-center"><%= user.dataValues.tags.length %></div>
                     <div class="cell flex-center">
-                        <a class="btn warning" href="/admin/edit-user/<%= user.dataValues.id %>">Edit</a>
+                        <a class="btn warning" href="/admin/edit-user/<%= user.dataValues.id %>"><%- include('../includes/translate.ejs', {string: "edit"}) %></a>
                     </div>
                 </div>
                 <% } %>

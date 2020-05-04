@@ -11,7 +11,7 @@
                 <path
                     d="m408 184h-136c-4.417969 0-8-3.582031-8-8v-136c0-22.089844-17.910156-40-40-40s-40 17.910156-40 40v136c0 4.417969-3.582031 8-8 8h-136c-22.089844 0-40 17.910156-40 40s17.910156 40 40 40h136c4.417969 0 8 3.582031 8 8v136c0 22.089844 17.910156 40 40 40s40-17.910156 40-40v-136c0-4.417969 3.582031-8 8-8h136c22.089844 0 40-17.910156 40-40s-17.910156-40-40-40zm0 0" />
             </svg>
-            <span class="add-button-label">Add new note</span>
+            <span class="add-button-label"><%- include('../includes/translate.ejs', {string: "add_new_note"}) %></span>
         </a>
         <% if (notes.length > 0) { %>
         <div class="notes-container">
@@ -20,7 +20,7 @@
             <% } %>
         </div>
         <% } else { %>
-        <h1 class="title">No notes Found!</h1>
+        <h1 class="title"><%- include('../includes/translate.ejs', {string: "no_notes_found"}) %></h1>
         <% } %>
         <div class="mobile-offset"></div>
     </main>

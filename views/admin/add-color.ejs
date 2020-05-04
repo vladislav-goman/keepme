@@ -8,16 +8,18 @@
         <div class="flex">
             <form class="form" action="<% if (editMode) { %>/admin/edit-color<% } else { %>/admin/add-color<% } %>"
                 method="POST">
-                <h1 class="title"><% if (editMode) { %>Edit Color<% } else { %>Add new color<% } %></h1>
+                <h1 class="title">
+                    <% if (editMode) { %><%- include('../includes/translate.ejs', {string: "edit_color"}) %><% } else { %><%- include('../includes/translate.ejs', {string: "add_color"}) %><% } %>
+                </h1>
                 <div class="form-control">
                     <img class="icon" src="/img/brush.svg" alt="brush">
                     <input value="<% if (editMode) { %><%= color.dataValues.name %><% } %>" class="input input-white"
-                        type="text" name="name" id="name" placeholder="Name">
+                        type="text" name="name" id="name" placeholder="<%- include('../includes/translate.ejs', {string: "name"}) %>">
                 </div>
                 <div class="form-control">
                     <img class="icon" src="/img/hash.svg" alt="hash">
                     <input value="<% if (editMode) { %><%= color.dataValues.hash %><% } %>" class="input input-white"
-                        type="text" name="hash" id="hash" placeholder="Hash">
+                        type="text" name="hash" id="hash" placeholder="<%- include('../includes/translate.ejs', {string: "hash"}) %>">
                 </div>
                 <% if (errorMessage) { %>
                 <div class="user-message user-message--error"><%= errorMessage %></div>
@@ -25,8 +27,7 @@
                 <% if (editMode) { %>
                 <input value="<%= color.dataValues.id %>" type="hidden" name="colorId">
                 <% } %>
-                <button class="btn login-button" type="submit"><% if (editMode) { %>Submit<% } else { %>Add
-                    Color<% } %></button>
+                <button class="btn login-button" type="submit"><% if (editMode) { %><%- include('../includes/translate.ejs', {string: "submit"}) %><% } else { %><%- include('../includes/translate.ejs', {string: "add_color"}) %><% } %></button>
             </form>
 
         </div>

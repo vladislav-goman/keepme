@@ -3,11 +3,13 @@ const Color = require("../models/color");
 const Note = require("../models/note");
 const Tag = require("../models/tag");
 const Reminder = require("../models/reminder");
+const Language = require("../models/language");
 const { Op } = require("sequelize");
 
 exports.getIndex = async (req, res, next) => {
   const { id: userId } = req.session.user;
   const user = await User.findByPk(userId);
+  const locales = await Language.findAll();
   const userNotes = await user.getNotes({
     include: [Color, Tag],
     where: {
@@ -26,6 +28,7 @@ exports.getIndex = async (req, res, next) => {
     path: "/",
     notes: userNotes,
     user,
+    locales,
   });
 };
 
@@ -576,5 +579,20 @@ exports.postSearch = async (req, res, next) => {
     path: "/search",
     notes: foundNotes,
     searchTerm,
+  });
+};
+
+exports.poshChangeLocale = async (req, res, next) => {
+  const { id: userId } = req.session.user;
+  const { localeId } = req.body;
+  const currentUser = await User.findByPk(userId);
+  const currentLocale = await Language.findByPk(localeId);
+
+  req.session.locale = currentLocale.dataValues.shortName;
+  
+  currentUser.languageId = localeId;
+
+  currentUser.save().then(() => {
+    res.redirect("/");
   });
 };

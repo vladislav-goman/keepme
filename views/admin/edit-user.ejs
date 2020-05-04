@@ -12,43 +12,43 @@
                 <div class="form-control">
                     <img class="icon" src="/img/mail.svg" alt="Login">
                     <input value="<% if (currentUser.dataValues.email) { %><%= currentUser.dataValues.email %><% } %>"
-                        class="input input-white" type="email" name="email" id="email" placeholder="E-Mail">
+                        class="input input-white" type="email" name="email" id="email" placeholder="<%- include('../includes/translate.ejs', {string: "email"}) %>">
                 </div>
                 <div class="form-control">
                     <img class="icon" src="/img/name.svg" alt="Login">
                     <input value="<% if (currentUser.dataValues.login) { %><%= currentUser.dataValues.login %><% } %>"
-                        class="input input-white" type="text" name="login" id="login" placeholder="Login">
+                        class="input input-white" type="text" name="login" id="login" placeholder="<%- include('../includes/translate.ejs', {string: "login"}) %>">
                 </div>
                 <% if (errorMessage) { %>
                 <div class="user-message user-message--error"><%= errorMessage %></div>
                 <% } %>
                 <input value="<%= currentUser.dataValues.id %>" type="hidden" name="userId">
-                <button class="btn login-button" type="submit">Submit</button>
+                <button class="btn login-button" type="submit"><%- include('../includes/translate.ejs', {string: "submit"}) %></button>
             </form>
 
             <div class="admin-actions">
                 <h1 class="title">Actions</h1>
                 <form class="admin-action-form" action="/admin/delete-user" method="POST">
                     <input type="hidden" name="userId" value="<%= currentUser.dataValues.id %>">
-                    <button type="submit" class="btn danger admin-action">Delete Profile</button>
+                    <button type="submit" class="btn danger admin-action"><%- include('../includes/translate.ejs', {string: "delete_profile"}) %></button>
                 </form>
                 <form class="admin-action-form" action="/admin/clear-user-notes" method="POST">
                     <input type="hidden" name="userId" value="<%= currentUser.dataValues.id %>">
-                    <button type="submit" class="btn warning admin-action">Empty Notes</button>
+                    <button type="submit" class="btn warning admin-action"><%- include('../includes/translate.ejs', {string: "empty_notes"}) %></button>
                 </form>
                 <form class="admin-action-form" action="/admin/clear-user-tags" method="POST">
                     <input type="hidden" name="userId" value="<%= currentUser.dataValues.id %>">
-                    <button type="submit" class="btn warning admin-action">Empty Tags</button>
+                    <button type="submit" class="btn warning admin-action"><%- include('../includes/translate.ejs', {string: "empty_tags"}) %></button>
                 </form>
                 <% if (currentUser.dataValues.isAdmin) { %>
                     <form class="admin-action-form" action="/admin/change-admin-role" method="POST">
                         <input type="hidden" name="userId" value="<%= currentUser.dataValues.id %>">
-                        <button type="submit" class="btn danger admin-action">Remove admin permissions</button>
+                        <button type="submit" class="btn danger admin-action"><%- include('../includes/translate.ejs', {string: "remove_admin_perms"}) %></button>
                     </form>
                 <% } else { %>
                     <form class="admin-action-form" action="/admin/change-admin-role" method="POST">
                         <input type="hidden" name="userId" value="<%= currentUser.dataValues.id %>">
-                        <button type="submit" class="btn info admin-action">Promote to admin</button>
+                        <button type="submit" class="btn info admin-action"><%- include('../includes/translate.ejs', {string: "promote_to_admin"}) %></button>
                     </form>
                 <% } %>
             </div>

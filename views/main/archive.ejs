@@ -5,7 +5,7 @@
     <%- include('../includes/navigation.ejs') %>
 
     <main class="main">
-        <h1 class="title">Archive</h1>
+        <h1 class="title"><%- include('../includes/translate.ejs', {string: "archive"}) %></h1>
         <% if (notes.length > 0) { %>
         <div class="notes-container">
             <% for (let note of notes) { %>
@@ -40,7 +40,7 @@
             <% } %>
         </div>
         <% } else { %>
-        <h1 class="title">No notes in Archive!</h1>
+        <h1 class="title"><%- include('../includes/translate.ejs', {string: "no_notes_in_archive"}) %></h1>
         <% } %>
 
     </main>

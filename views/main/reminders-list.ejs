@@ -6,26 +6,26 @@
 
     <main class="main">
         <div class="flex-between">
-            <h2 calss="title">Your Reminders:</h2>
+            <h2><%- include('../includes/translate.ejs', {string: "your_reminders"}) %></h2>
             <% if (editMode) { %>
-            <a class="btn btn-primary" href="/reminders">Overview</a>
+            <a class="btn btn-primary" href="/reminders"><%- include('../includes/translate.ejs', {string: "overview"}) %></a>
             <% } else { %>
-            <a class="btn warning" href="/reminders?action=edit">Edit Reminders</a>
+            <a class="btn warning" href="/reminders?action=edit"><%- include('../includes/translate.ejs', {string: "edit"}) %></a>
             <% } %>
         </div>
         <% if (notes.length > 0) { %>
         <div class="table-grid">
             <div class="<% if (editMode) { %>row-6-reminder<% } else { %>row-5-reminder<% } %>">
                 <div class="cell head-cell flex-center">#</div>
-                <div class="cell head-cell">Note Name</div>
+                <div class="cell head-cell"><%- include('../includes/translate.ejs', {string: "name"}) %></div>
                 <% if (!editMode) { %>
-                <div class="cell head-cell">Note Description</div>
+                <div class="cell head-cell"><%- include('../includes/translate.ejs', {string: "description"}) %></div>
                 <% } %>
-                <div class="cell head-cell">Remind Date</div>
-                <div class="cell head-cell">Remind Text</div>
+                <div class="cell head-cell"><%- include('../includes/translate.ejs', {string: "date"}) %></div>
+                <div class="cell head-cell"><%- include('../includes/translate.ejs', {string: "text"}) %></div>
                 <% if (editMode) { %>
-                <div class="cell head-cell flex-center">Edit</div>
-                <div class="cell head-cell flex-center">Delete</div>
+                <div class="cell head-cell flex-center"><%- include('../includes/translate.ejs', {string: "edit"}) %></div>
+                <div class="cell head-cell flex-center"><%- include('../includes/translate.ejs', {string: "delete"}) %></div>
                 <% } %>
             </div>
             <% for (let note of notes) { %>
@@ -43,12 +43,12 @@
                 <div class="cell"><%= reminder.dataValues.remindText %></div>
                 <% if (editMode) { %>
                 <div class="cell flex-center">
-                    <a class="btn warning" href="/edit-reminder/<%= reminder.dataValues.id %>">Edit</a>
+                    <a class="btn warning" href="/edit-reminder/<%= reminder.dataValues.id %>"><%- include('../includes/translate.ejs', {string: "edit"}) %></a>
                 </div>
                 <div class="cell flex-center">
                     <form action="/delete-reminder" method="POST">
                         <input type="hidden" name="reminderId" value="<%= reminder.dataValues.id %>">
-                        <button type="submit" class="btn danger">Delete</button>
+                        <button type="submit" class="btn danger"><%- include('../includes/translate.ejs', {string: "delete"}) %></button>
                     </form>
                 </div>
                 <% } %>
@@ -57,7 +57,7 @@
             <% } %>
         </div>
         <% } else { %>
-        <h1 class="title">No Reminders created yet!</h1>
+        <h1 class="title"><%- include('../includes/translate.ejs', {string: "no_reminders"}) %></h1>
         <% } %>
 
     </main>

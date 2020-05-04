@@ -1,6 +1,9 @@
-const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+
+const User = require("../models/user");
+const Language = require("../models/language");
+
 const emailer = require("../util/emailer");
 
 exports.getLogin = (req, res, next) => {
@@ -62,7 +65,7 @@ exports.getSignup = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  User.findOne({ where: { email } })
+  User.findOne({ where: { email }, include: Language })
     .then((user) => {
       if (!user) {
         req.flash("error", "Invalid email or password.");
@@ -75,6 +78,7 @@ exports.postLogin = (req, res, next) => {
           if (doMatch) {
             req.session.isLoggedIn = true;
             req.session.isAdmin = user.isAdmin;
+            req.session.locale = user.dataValues.language.dataValues.shortName;
             req.session.user = user;
             return req.session.save((err) => {
               res.redirect("/");
@@ -120,6 +124,7 @@ exports.postSignup = async (req, res, next) => {
     email,
     login,
     password: hashedPassword,
+    languageId: 1
   });
 
   user.save();

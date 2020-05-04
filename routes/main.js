@@ -64,4 +64,8 @@ router.get("/search", mainController.getSearch);
 
 router.post("/search", mainController.postSearch);
 
+// Locales
+
+router.post("/change-locale", mainController.poshChangeLocale);
+
 module.exports = router;

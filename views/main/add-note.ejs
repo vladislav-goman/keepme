@@ -9,14 +9,14 @@
             <form class="form grid-form" action="<% if (editMode) { %>/edit-note<% } else { %>/add-note<% } %>"
                 method="POST">
                 <div class="container">
-                    <h1 class="form-title"><% if (editMode) { %>Edit Note<% } else { %>What's new?<% } %></h1>
+                    <h1 class="form-title"><% if (editMode) { %><%- include('../includes/translate.ejs', {string: "edit_note"}) %><% } else { %><%- include('../includes/translate.ejs', {string: "whats_new"}) %><% } %></h1>
                     <div class="form-control">
                         <img class="icon" src="/img/name.svg" alt="brush">
                         <input value="<% if (editMode) { %><%= title %><% } %>" class="input input-white" type="text"
-                            name="title" id="title" placeholder="Title">
+                            name="title" id="title" placeholder="<%- include('../includes/translate.ejs', {string: "title"}) %>">
                     </div>
                     <div class="form-control">
-                        <label class="label" for="note-text">Your note:</label>
+                        <label class="label" for="note-text"><%- include('../includes/translate.ejs', {string: "your_note"}) %></label>
                         <textarea id="note-text" class="textarea input-white" type="text" name="text"
                             placeholder="Text"><% if (editMode) { %><%= text %><% } %></textarea>
                     </div>
@@ -26,11 +26,10 @@
                     <% if (errorMessage) { %>
                     <div class="user-message user-message--error"><%= errorMessage %></div>
                     <% } %>
-                    <button class="btn login-button" type="submit"><% if (editMode) { %>Submit<% } else { %>Add
-                        Note<% } %></button>
+                    <button class="btn login-button" type="submit"><% if (editMode) { %><%- include('../includes/translate.ejs', {string: "submit"}) %><% } else { %><%- include('../includes/translate.ejs', {string: "add_note"}) %><% } %></button>
                 </div>
                 <div class="container scroll-auto">
-                    <h2 class="label">Pick a color:</h2>
+                    <h2 class="label"><%- include('../includes/translate.ejs', {string: "pick_a_color"}) %></h2>
                     <% if (colors.length > 0) { %>
                     <div class="flex-start">
                         <% for (let color of colors) { %>
@@ -50,9 +49,9 @@
                         <% } %>
                     </div>
                     <% } else { %>
-                    <h3 class="label">No color available!</h3>
+                    <h3 class="label"><%- include('../includes/translate.ejs', {string: "no_colors_available"}) %></h3>
                     <% } %>
-                    <h2 class="label margin-top-sm">Select tags:</h2>
+                    <h2 class="label margin-top-sm"><%- include('../includes/translate.ejs', {string: "select_tags"}) %></h2>
                     <% if (userTags.length > 0) { %>
                     <div class="tags-container-padding">
                         <% for (let tag of userTags) { %>
@@ -71,7 +70,7 @@
                         <% } %>
                     </div>
                     <% } else { %>
-                    <h3 class="label">No Tags Created!</h3>
+                    <h3 class="label"><%- include('../includes/translate.ejs', {string: "no_tags_created"}) %></h3>
                     <% } %>
                 </div>
             </form>

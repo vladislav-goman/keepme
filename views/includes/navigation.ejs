@@ -3,40 +3,40 @@
         <div class="main-header__item-list">
             <a class="header-link <%= path === '/' ? 'active' : '' %>" href="/">
                 <img src="/img/home.svg" alt="Home" class="header-icon">
-                <span class="header-label">Home</span>
+                <span class="header-label"><%- include('./translate.ejs', {string: "home"}) %></span>
             </a>
             <a class="header-link <%= path === '/notes' ? 'active' : '' %>" href="/notes">
                 <img src="/img/note.svg" alt="Notes" class="header-icon">
-                <span class="header-label">Notes</span>
+                <span class="header-label"><%- include('./translate.ejs', {string: "notes"}) %></span>
             </a>
             <a class="header-link <%= path === '/tags' ? 'active' : '' %>" href="/tags">
                 <img src="/img/hashtag.svg" alt="Tags" class="header-icon">
-                <span class="header-label">Tags</span>
+                <span class="header-label"><%- include('./translate.ejs', {string: "tags"}) %></span>
             </a>
             <a class="header-link <%= path === '/reminders' ? 'active' : '' %>" href="/reminders">
                 <img src="/img/reminder.svg" alt="Reminders" class="header-icon">
-                <span class="header-label">Reminders</span>
+                <span class="header-label"><%- include('./translate.ejs', {string: "reminders"}) %></span>
             </a>
             <a class="header-link <%= path === '/archive' ? 'active' : '' %>" href="/archive">
                 <img src="/img/archive.svg" alt="Archive" class="header-icon">
-                <span class="header-label">Archive</span>
+                <span class="header-label"><%- include('./translate.ejs', {string: "archive"}) %></span>
             </a>
             <a class="header-link <%= path === '/search' ? 'active' : '' %>" href="/search">
                 <img src="/img/search.svg" alt="Search" class="header-icon">
-                <span class="header-label">Search</span>
+                <span class="header-label"><%- include('./translate.ejs', {string: "search"}) %></span>
             </a>
         </div>
         <div class="main-header__item-list flex-end-mobile">
             <% if (isAdmin) { %>
                 <a class="header-link <%= path === '/admin' ? 'active' : '' %>" href="/admin">
                     <img src="/img/admin.svg" alt="Admin Panel" class="header-icon">
-                    <span class="header-label">Admin</span>
+                    <span class="header-label"><%- include('./translate.ejs', {string: "admin"}) %></span>
                 </a>
             <% } %>
             <label class="header-link" for="logout-btn">
                 <img src="/img/logout.svg" alt="Home page" class="header-icon">
                 <form action="/auth/logout" method="post">
-                    <button id="logout-btn" class="logout" type="submit">Logout</button>
+                    <button id="logout-btn" class="logout" type="submit"><%- include('./translate.ejs', {string: "logout"}) %></button>
                 </form>
             </label>
         </div>

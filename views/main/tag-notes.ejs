@@ -14,8 +14,7 @@
             <% } %>
         </div>
         <% } else { %>
-        <h1 class="title">No notes Found!</h1>
+        <h1 class="title"><%- include('../includes/translate.ejs', {string: "no_notes_found"}) %></h1>
         <% } %>
-
     </main>
     <%- include('../includes/end.ejs') %>

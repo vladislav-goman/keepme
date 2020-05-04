@@ -8,16 +8,16 @@
         <div class="flex">
             <form class="form" action="<% if (editMode) { %>/edit-tag<% } else { %>/add-tag<% } %>" method="POST">
                 <div class="container">
-                    <h1 class="form-title"><% if (editMode) { %>Edit Tag<% } else { %>Create Tag<% } %></h1>
+                    <h1 class="form-title"><% if (editMode) { %><%- include('../includes/translate.ejs', {string: "edit_tag"}) %><% } else { %><%- include('../includes/translate.ejs', {string: "create_tag"}) %><% } %></h1>
                     <div class="form-control">
                         <img class="icon" src="/img/name.svg" alt="brush">
                         <input value="<% if (editMode) { %><%= tag.name %><% } %>" class="input input-white" type="text"
-                            name="name" id="name" placeholder="Name">
+                            name="name" id="name" placeholder="<%- include('../includes/translate.ejs', {string: "name"}) %>">
                     </div>
                     <div class="form-control">
-                        <label class="label" for="description">Tag description:</label>
+                        <label class="label" for="description"><%- include('../includes/translate.ejs', {string: "tag_description"}) %></label>
                         <textarea id="description" class="textarea input-white" type="description" name="description"
-                            placeholder="Description"><% if (editMode) { %><%= tag.description %><% } %></textarea>
+                            placeholder="<%- include('../includes/translate.ejs', {string: "description"}) %>"><% if (editMode) { %><%= tag.description %><% } %></textarea>
                     </div>
                     <% if (editMode) { %>
                     <input value="<%= tag.id %>" type="hidden" name="tagId">
@@ -25,8 +25,7 @@
                     <% if (errorMessage) { %>
                     <div class="user-message user-message--error"><%= errorMessage %></div>
                     <% } %>
-                    <button class="btn login-button" type="submit"><% if (editMode) { %>Submit<% } else { %>Add
-                        Tag<% } %></button>
+                    <button class="btn login-button" type="submit"><% if (editMode) { %><%- include('../includes/translate.ejs', {string: "submit"}) %><% } else { %><%- include('../includes/translate.ejs', {string: "add_tag"}) %><% } %></button>
                 </div>
             </form>
 
