@@ -892,6 +892,13 @@ form {
   right: 2rem;
 }
 
+@media screen and (max-width: 900px) {
+  .locales-container {
+    position: initial;
+    justify-content: center;
+  }
+}
+
 .locale-button {
   border: none;
   padding: 0;

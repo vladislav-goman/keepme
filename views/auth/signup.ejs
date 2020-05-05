@@ -6,7 +6,7 @@
     <main>
         <div class="form-wrapper">
             <form class="login-form" action="/auth/signup" method="POST">
-                <h1 class="form-title">Sign Up!</h1>
+                <h1 class="form-title">Регистрация!</h1>
                 <div class="form-control">
                     <img class="icon" src="/img/mail.svg" alt="Login">
                     <input value="<% if (email) { %><%= email %><% } %>" class="input" type="email" name="email"
@@ -15,23 +15,23 @@
                 <div class="form-control">
                     <img class="icon" src="/img/name.svg" alt="Login">
                     <input value="<% if (login) { %><%= login %><% } %>" class="input" type="text" name="login"
-                        id="login" placeholder="Login">
+                        id="login" placeholder="Имя">
                 </div>
                 <div class="form-control">
                     <img class="icon" src="/img/lock.svg" alt="Login">
-                    <input class="input" type="password" name="password" id="password" placeholder="Password">
+                    <input class="input" type="password" name="password" id="password" placeholder="Пароль">
                 </div>
                 <div class="form-control">
                     <img class="icon" src="/img/correct.svg" alt="Login">
                     <input class="input" type="password" name="confirmPassword" id="confirm-password"
-                        placeholder="Confirm Password">
+                        placeholder="Подтвердите пароль">
                 </div>
                 <% if (errorMessage) { %>
                 <div class="user-message user-message--error"><%= errorMessage %></div>
                 <% } %>
-                <button class="btn login-button" type="submit">Sign Up!</button>
+                <button class="btn login-button" type="submit">Подтвердить!</button>
                 <div class="sign-up-link-container">
-                    <a class="sign-up-link" href="/auth/login">Already have an Account?</a>
+                    <a class="sign-up-link" href="/auth/login">Уже есть аккаунт?</a>
                 </div>
             </form>
         </div>

@@ -6,7 +6,7 @@
     <main>
         <div class="form-wrapper">
             <form class="login-form" action="/auth/login" method="POST">
-                <h1 class="form-title">Member Login</h1>
+                <h1 class="form-title">Вход</h1>
                 <div class="form-control">
                     <img class="icon" src="/img/mail.svg" alt="Login">
                     <input value="<% if (email) { %><%= email %><% } %>" class="input" type="email" name="email"
@@ -14,7 +14,7 @@
                 </div>
                 <div class="form-control">
                     <img class="icon" src="/img/lock.svg" alt="Login">
-                    <input class="input" type="password" name="password" id="password" placeholder="Password">
+                    <input class="input" type="password" name="password" id="password" placeholder="Пароль">
                 </div>
                 <% if (errorMessage) { %>
                 <div class="user-message user-message--error"><%= errorMessage %></div>
@@ -22,13 +22,13 @@
                 <% if (successMessage) { %>
                 <div class="user-message user-message--success"><%= successMessage %></div>
                 <% } %>
-                <button class="btn login-button" type="submit">Login</button>
+                <button class="btn login-button" type="submit">Вход</button>
                 <div class="sign-up-link-container">
                     <span class="sign-up-link-label">or </span>
-                    <a class="sign-up-link" href="/auth/signup">Create new Account</a>
+                    <a class="sign-up-link" href="/auth/signup">Создать новый аккаунт</a>
                 </div>
                 <div class="sign-up-link-container">
-                    <a class="sign-up-link" href="/auth/forgot-password">Forgot password?</a>
+                    <a class="sign-up-link" href="/auth/forgot-password">Забыли пароль?</a>
                 </div>
             </form>
         </div>
