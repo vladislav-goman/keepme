@@ -18,7 +18,7 @@ const reminderController = async () => {
 
       const msg = {
         to: currentUser.dataValues.email,
-        from: "admin@keepme.tech",
+        from: "info.keepme@gmail.com",
         subject: "Reminder from keepme.tech",
         html: `<h1 style="text-align:center">Hello from keepme!</h1>
             <h2 style="text-align:center">We're reminding about your note:</h2>
