@@ -686,7 +686,7 @@ exports.importUserData = async (req, res, next) => {
     return res.redirect("/");
   }
 
-  if (!json) {
+  if (!json || !json.mimetype.includes('json')) {
     return res.redirect("/");
   }
 
