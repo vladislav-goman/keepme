@@ -72,10 +72,10 @@ exports.postLogin = (req, res, next) => {
         req.flash("email", `${email}`);
         return res.redirect("/auth/login");
       }
-      if(!user.dataValues.isMailVerified) {
+      if (!user.dataValues.isMailVerified) {
         req.flash("error", "Аккаунт не был активирован.");
         req.flash("email", `${email}`);
-        return res.redirect('/auth/login');
+        return res.redirect("/auth/login");
       }
       bcrypt
         .compare(password, user.dataValues.password)
@@ -133,7 +133,7 @@ exports.postSignup = async (req, res, next) => {
     login,
     password: hashedPassword,
     languageId: 1,
-    recoveryHash
+    recoveryHash,
   });
 
   const currentUser = await user.save();
@@ -156,7 +156,7 @@ exports.postSignup = async (req, res, next) => {
         req.protocol
       }://${req.get("host")}${req.originalUrl}/${
         currentUser.dataValues.id
-      }/${recoveryString}`}">Активировать аккаунт</a>`,
+      }`}">Активировать аккаунт</a>`,
   };
   emailer.sendMail(msg).catch((err) => console.log(err));
 };
@@ -238,7 +238,7 @@ exports.getSetNewPassword = async (req, res, next) => {
   const currentUser = await User.findByPk(userId);
   if (!currentUser) res.redirect("/");
 
-  if(!currentUser.dataValues.isMailVerified) {
+  if (!currentUser.dataValues.isMailVerified) {
     return res.redirect(`/auth/signup/${currentUser.dataValues.id}`);
   }
 
@@ -278,7 +278,7 @@ exports.postSetNewPassword = async (req, res, next) => {
 
   const hashedPassword = await bcrypt.hash(password, 12);
   currentUser.password = hashedPassword;
-  
+
   const newRecoveryString = crypto.randomBytes(20).toString("hex");
   const recoveryHash = await bcrypt.hash(newRecoveryString, 12);
 
@@ -297,7 +297,7 @@ exports.getActivate = async (req, res, next) => {
   const currentUser = await User.findByPk(userId);
   if (!currentUser) res.redirect("/");
 
-  if(!currentUser.dataValues.isMailVerified) {
+  if (!currentUser.dataValues.isMailVerified) {
     currentUser.isMailVerified = true;
 
     return currentUser.save().then(() => {
