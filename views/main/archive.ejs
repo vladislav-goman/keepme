@@ -9,34 +9,7 @@
         <% if (notes.length > 0) { %>
         <div class="notes-container">
             <% for (let note of notes) { %>
-            <article class="note--item" <% if (note.dataValues.color) { %>
-                style="background-color:<%= note.dataValues.color.dataValues.hash %>;" <% } %>>
-                <div class="note--body">
-                    <% if (note.title) { %>
-                    <h2 class="note__title">
-                        <%= note.title %>
-                    </h2>
-                    <% } %>
-                    <p class="note__description">
-                        <%= note.text %>
-                    </p>
-                </div>
-
-                <div class="actions">
-                    <form action="/archive-note" method="POST" class="action-form">
-                        <input name="noteId" value="<%= note.dataValues.id %>" type="hidden">
-                        <button class="action-button flex" type="submit">
-                            <img src="/img/upload.svg" alt="Pin" class="action-img">
-                        </button>
-                    </form>
-                    <form action="/delete-note" method="POST" class="action-form">
-                        <input name="noteId" value="<%= note.dataValues.id %>" type="hidden">
-                        <button class="action-button flex" type="submit">
-                            <img src="/img/delete.svg" alt="Pin" class="action-img">
-                        </button>
-                    </form>
-                </div>
-            </article>
+                <%- include('../includes/archived-note.ejs', {note: note}) %>
             <% } %>
         </div>
         <% } else { %>

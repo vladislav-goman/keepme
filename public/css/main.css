@@ -626,6 +626,8 @@ form {
 
 .note__image {
   width: 100%;
+  padding-right: .5rem;
+  border-radius: 8px;
 }
 
 .note__description {

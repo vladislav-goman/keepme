@@ -241,7 +241,7 @@ exports.getArchive = async (req, res, next) => {
   const { id: userId } = req.session.user;
   const user = await User.findByPk(userId);
   const userNotes = await user.getNotes({
-    include: Color,
+    include: [Color, Tag],
     where: {
       isArchived: {
         [Op.is]: true,

@@ -1,0 +1,41 @@
+<article class="note--item" <% if (note.dataValues.color) { %>
+    style="background-color:<%= note.dataValues.color.dataValues.hash %>;" <% } %>>
+    <div class="note--main">
+        <div class="note--body">
+            <% if (note.dataValues.title) { %>
+            <h2 class="note__title">
+                <%= note.dataValues.title %>
+            </h2>
+            <% } %>
+            <% if (note.dataValues.imagePath) { %>
+            <img src="/<%= note.dataValues.imagePath %>" alt="User image" class="note__image">
+            <% } %>
+            <% if (note.dataValues.text) { %>
+                <p class="note__description">
+                    <%= note.dataValues.text %>
+                </p>
+            <% } %>
+        </div>
+        <div class="note--footer">
+            <% if (note.dataValues.tags.length > 0) { %>
+            <% for (let tag of note.dataValues.tags) { %>
+            <a href="/tags/<%= tag.dataValues.id %>" class="tag-small">#<%= tag.name %></a>
+            <% } %>
+            <% } %>
+        </div>
+    </div>
+    <div class="actions">
+        <form action="/archive-note" method="POST" class="action-form">
+            <input name="noteId" value="<%= note.dataValues.id %>" type="hidden">
+            <button class="action-button flex" type="submit">
+                <img src="/img/upload.svg" alt="Pin" class="action-img">
+            </button>
+        </form>
+        <form action="/delete-note" method="POST" class="action-form">
+            <input name="noteId" value="<%= note.dataValues.id %>" type="hidden">
+            <button class="action-button flex" type="submit">
+                <img src="/img/delete.svg" alt="Pin" class="action-img">
+            </button>
+        </form>
+    </div>
+</article>
