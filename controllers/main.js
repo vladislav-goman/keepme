@@ -2,9 +2,13 @@ const User = require("../models/user");
 const Color = require("../models/color");
 const Note = require("../models/note");
 const Tag = require("../models/tag");
+const TagNoteItem = require("../models/tagnoteitem");
 const Reminder = require("../models/reminder");
 const Language = require("../models/language");
+
 const formatDate = require("../util/formatDate");
+const fs = require("fs");
+const path = require("path");
 const { Op } = require("sequelize");
 
 exports.getIndex = async (req, res, next) => {
@@ -629,5 +633,99 @@ exports.poshChangeLocale = async (req, res, next) => {
 
   currentUser.save().then(() => {
     res.redirect("/");
+  });
+};
+
+exports.exportUserData = async (req, res, next) => {
+  const { id: userId } = req.session.user;
+  const currentUser = await User.findByPk(userId);
+
+  const now = new Date(Date.now());
+  const today = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+
+  const fileName = `data-${currentUser.dataValues.login}-${today}.json`;
+  const filePath = path.join("images", fileName);
+
+  const readFileController = (err, data) => {
+    if (err) {
+      return next(err);
+    }
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        throw err;
+      }
+    });
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Content-Disposition", `attachment; filename=${fileName}`);
+    res.send(data);
+  };
+
+  const userNotes = await currentUser.getNotes();
+  const userTags = await currentUser.getTags();
+
+  const userData = JSON.stringify({
+    userNotes,
+    userTags,
+  });
+
+  return fs.writeFile(filePath, userData, function (err) {
+    if (err) {
+      return console.log(err);
+    }
+    fs.readFile(filePath, readFileController);
+  });
+};
+
+exports.importUserData = async (req, res, next) => {
+  const json = req.file;
+  const { id: userId } = req.session.user;
+  const currentUser = await User.findByPk(userId);
+  const filePath = path.join("images", json.filename);
+
+  if (!currentUser) {
+    return res.redirect("/");
+  }
+
+  if (!json) {
+    return res.redirect("/");
+  }
+
+  fs.readFile(filePath, (err, data) => {
+    if (err) {
+      return next(err);
+    }
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        throw err;
+      }
+    });
+    let parsedData;
+    try {
+      parsedData = JSON.parse(data);
+    } catch (err) {
+      throw err;
+    }
+    if (parsedData) {
+      const { userNotes, userTags } = parsedData;
+      const userNotesToLoad = userNotes.map((note) => {
+        delete note.id;
+        note.userId = userId;
+        return note;
+      });
+      const userTagsToLoad = userTags.map((tag) => {
+        delete tag.id;
+        tag.userId = userId;
+        return tag;
+      });
+      console.log(userNotesToLoad);
+      return Note.bulkCreate(userNotesToLoad)
+        .then(() => {
+          return Tag.bulkCreate(userTagsToLoad);
+        })
+        .then(() => {
+          return res.redirect("/");
+        });
+    }
+    return res.redirect("/");
   });
 };

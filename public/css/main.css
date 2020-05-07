@@ -492,6 +492,14 @@ form {
   border: 2px solid #2BDE0F;
 }
 
+.margin-top {
+  margin-top: 1rem;
+}
+
+.no-margin {
+  margin: 0;
+}
+
 .sign-up-link {
   color: #7e7e7e;
   transition: .3s all;

@@ -6,17 +6,19 @@
     <main class="main">
         <div class="locales-container">
             <% for (let curLocale of locales) { %>
-            <% if (curLocale.dataValues.shortName !== locale) { %> 
+            <% if (curLocale.dataValues.shortName !== locale) { %>
             <form class="locale-form" action="/change-locale" method="post">
                 <input type="hidden" name="localeId" value="<%= curLocale.dataValues.id %>">
                 <button type="submit" class="locale-button">
-                    <img src="<%= curLocale.dataValues.imageUrl %>" alt="<%= curLocale.dataValues.name %>" class="locale-img" />
+                    <img src="<%= curLocale.dataValues.imageUrl %>" alt="<%= curLocale.dataValues.name %>"
+                        class="locale-img" />
                 </button>
             </form>
             <% } %>
             <% } %>
         </div>
-        <h1 class="title"><%- include('../includes/translate.ejs', {string: "welcome"}) %> <%= user.dataValues.login %></h1>
+        <h1 class="title"><%- include('../includes/translate.ejs', {string: "welcome"}) %> <%= user.dataValues.login %>
+        </h1>
         <% if (notes.length > 0) { %>
         <h4 class="title"><%- include('../includes/translate.ejs', {string: "here_are_items_youve_pinned"}) %></h4>
         <div class="notes-container">
@@ -27,6 +29,25 @@
         <% } else { %>
         <h1 class="title">Your pinned notes would appear here!</h1>
         <% } %>
+
+        <div class="margin-top">
+            <div class="form">
+                <a class="no-margin btn admin-link info" href="/export-data">
+                    <span
+                        class="add-button-label"><%- include('../includes/translate.ejs', {string: "export_my_data"}) %></span>
+                </a>
+            </div>
+
+            <form action="/import-data" class="form margin-top" method="post" enctype="multipart/form-data">
+                <div class="form-control">
+                    <img class="icon" src="/img/upload.svg" alt="image">
+                    <input required class="input input-white input-file" type="file" name="file" id="json">
+                </div>
+                <button type="submit"
+                    class="no-margin btn admin-link info"><%- include('../includes/translate.ejs', {string: "import_data"}) %></button>
+                </button>
+            </form>
+        </div>
 
     </main>
     <%- include('../includes/end.ejs') %>

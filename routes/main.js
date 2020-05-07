@@ -28,6 +28,10 @@ router.post("/pin-note", mainController.postPinNote);
 
 router.get("/archive", mainController.getArchive);
 
+router.get("/export-data", mainController.exportUserData);
+
+router.post("/import-data", mainController.importUserData);
+
 // Tags
 
 router.get("/tags", mainController.getTags);

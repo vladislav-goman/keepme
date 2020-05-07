@@ -21,16 +21,18 @@ const Color = require("./models/color");
 const Tag = require("./models/tag");
 const Reminder = require("./models/reminder");
 const Language = require("./models/language");
+const TagNoteItem = require("./models/tagnoteitem");
 
 const mainRoutes = require("./routes/main");
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 
-const fileFilter = (req, file, cb) => {
+const imageFilter = (req, file, cb) => {
   if (
     file.mimetype === "image/png" ||
     file.mimetype === "image/jpg" ||
-    file.mimetype === "image/jpeg"
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "application/json"
   ) {
     cb(null, true);
   } else {
@@ -51,10 +53,10 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ dest: 'images', fileFilter: fileFilter }).single("image"));
+app.use(multer({ dest: "images", fileFilter: imageFilter }).single("file"));
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use('/images', express.static(path.join(__dirname, "images")));
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use(
   session({
@@ -119,11 +121,11 @@ Note.hasMany(Reminder), { onDelete: "CASCADE" };
 Reminder.belongsTo(Note, { onDelete: "CASCADE" });
 
 Note.belongsToMany(Tag, {
-  through: "tagged_note_item",
+  through: TagNoteItem,
   onDelete: "CASCADE",
 });
 Tag.belongsToMany(Note, {
-  through: "tagged_note_item",
+  through: TagNoteItem,
   onDelete: "CASCADE",
 });
 
