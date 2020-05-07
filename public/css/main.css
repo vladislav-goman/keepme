@@ -472,6 +472,10 @@ form {
   transition: .3s all;
 }
 
+.input-file {
+  padding: .8rem 1rem 0 3rem;
+}
+
 .input-white {
   background-color: #ffffff;
 }
@@ -618,6 +622,10 @@ form {
   text-align: left;
   width: 100%;
   line-height: 1;
+}
+
+.note__image {
+  width: 100%;
 }
 
 .note__description {

@@ -7,13 +7,20 @@
     <main class="main">
         <div class="flex">
             <form class="form grid-form" action="<% if (editMode) { %>/edit-note<% } else { %>/add-note<% } %>"
-                method="POST">
+                method="POST" enctype="multipart/form-data">
                 <div class="container">
                     <h1 class="form-title"><% if (editMode) { %><%- include('../includes/translate.ejs', {string: "edit_note"}) %><% } else { %><%- include('../includes/translate.ejs', {string: "whats_new"}) %><% } %></h1>
                     <div class="form-control">
                         <img class="icon" src="/img/name.svg" alt="brush">
                         <input value="<% if (editMode) { %><%= title %><% } %>" class="input input-white" type="text"
                             name="title" id="title" placeholder="<%- include('../includes/translate.ejs', {string: "title"}) %>">
+                    </div>
+                    <% if (editMode && imagePath) { %>
+                        <label class="label" for="description"><%- include('../includes/translate.ejs', {string: "image_already_set"}) %></label>
+                    <% } %>
+                    <div class="form-control">
+                        <img class="icon" src="/img/image.svg" alt="image">
+                        <input class="input input-white input-file" type="file" name="image" id="image">
                     </div>
                     <div class="form-control">
                         <label class="label" for="note-text"><%- include('../includes/translate.ejs', {string: "your_note"}) %></label>

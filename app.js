@@ -6,6 +6,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const helmet = require("helmet");
 const compression = require("compression");
+const multer = require("multer");
 
 const forceHTTPS = require("./middleware/forceHTTPS");
 
@@ -25,6 +26,18 @@ const mainRoutes = require("./routes/main");
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
 const app = express();
 
 app.set("view engine", "ejs");
@@ -38,8 +51,11 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({ dest: 'images', fileFilter: fileFilter }).single("image"));
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use('/images', express.static(path.join(__dirname, "images")));
+
 app.use(
   session({
     secret: "my secret",
@@ -55,7 +71,7 @@ app.use((req, res, next) => {
     !req.session.isLoggedIn &&
     !(
       req.url === "/auth/login" ||
-      req.url === "/auth/signup" ||
+      req.url.includes("/auth/signup") ||
       req.url === "/auth/set-new-password" ||
       req.url.includes("/auth/forgot-password")
     )

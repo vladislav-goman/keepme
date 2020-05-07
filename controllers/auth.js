@@ -72,6 +72,11 @@ exports.postLogin = (req, res, next) => {
         req.flash("email", `${email}`);
         return res.redirect("/auth/login");
       }
+      if(!user.dataValues.isMailVerified) {
+        req.flash("error", "Аккаунт не был активирован.");
+        req.flash("email", `${email}`);
+        return res.redirect('/auth/login');
+      }
       bcrypt
         .compare(password, user.dataValues.password)
         .then((doMatch) => {
@@ -120,19 +125,23 @@ exports.postSignup = async (req, res, next) => {
 
   const hashedPassword = await bcrypt.hash(password, 12);
 
+  const recoveryString = crypto.randomBytes(20).toString("hex");
+  const recoveryHash = await bcrypt.hash(recoveryString, 12);
+
   const user = new User({
     email,
     login,
     password: hashedPassword,
-    languageId: 1
+    languageId: 1,
+    recoveryHash
   });
 
-  user.save();
+  const currentUser = await user.save();
 
   req.flash("email", `${email}`);
   req.flash(
     "success",
-    `Добро пожаловать, ${login}! Ваш аккаунт был успешно создан!`
+    `Добро пожаловать, ${login}! Ваш аккаунт был успешно создан! Для активации проверьте свой E-Mail.`
   );
   res.redirect("/auth/login");
 
@@ -141,7 +150,13 @@ exports.postSignup = async (req, res, next) => {
     from: "info.keepme@gmail.com",
     subject: "Регистрация на keepme.tech!",
     html: `<h1 style="text-align:center">Ваша регистрация на keepme.tech прошла успешно!</h1>
-              <h2 style="text-align:center">Добро пожаловать, ${login}!</h2>`,
+              <h2 style="text-align:center">Добро пожаловать, ${login}!</h2>
+              <h3>Для активации аккаунта пройдите по ссылке ниже</h3>
+      <a style="margin: auto; text-decoration: none; font-size: 20px; padding: 0.4rem 0.8rem; background-color: #2EC4B6; border-radius: 8px; color: #ffffff;" href="${`${
+        req.protocol
+      }://${req.get("host")}${req.originalUrl}/${
+        currentUser.dataValues.id
+      }/${recoveryString}`}">Активировать аккаунт</a>`,
   };
   emailer.sendMail(msg).catch((err) => console.log(err));
 };
@@ -223,6 +238,10 @@ exports.getSetNewPassword = async (req, res, next) => {
   const currentUser = await User.findByPk(userId);
   if (!currentUser) res.redirect("/");
 
+  if(!currentUser.dataValues.isMailVerified) {
+    return res.redirect(`/auth/signup/${currentUser.dataValues.id}`);
+  }
+
   res.render("auth/new-password", {
     path: "/new-password",
     pageTitle: "New Password",
@@ -259,10 +278,33 @@ exports.postSetNewPassword = async (req, res, next) => {
 
   const hashedPassword = await bcrypt.hash(password, 12);
   currentUser.password = hashedPassword;
+  
+  const newRecoveryString = crypto.randomBytes(20).toString("hex");
+  const recoveryHash = await bcrypt.hash(newRecoveryString, 12);
+
+  currentUser.recoveryHash = recoveryHash;
 
   currentUser.save().then(() => {
     req.flash("success", `Пароль был успешно изменён!`);
     req.flash("email", `${currentUser.dataValues.email}`);
     res.redirect("auth/login");
   });
+};
+
+exports.getActivate = async (req, res, next) => {
+  const { userId } = req.params;
+
+  const currentUser = await User.findByPk(userId);
+  if (!currentUser) res.redirect("/");
+
+  if(!currentUser.dataValues.isMailVerified) {
+    currentUser.isMailVerified = true;
+
+    return currentUser.save().then(() => {
+      req.flash("success", `Ваш аккаунт был успешно активирован!`);
+      req.flash("email", `${currentUser.dataValues.email}`);
+      return res.redirect("/auth/login");
+    });
+  }
+  return res.redirect("/auth/login");
 };

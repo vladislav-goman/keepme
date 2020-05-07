@@ -10,9 +10,14 @@
                 <%= note.dataValues.title %>
             </h2>
             <% } %>
-            <p class="note__description">
-                <%= note.dataValues.text %>
-            </p>
+            <% if (note.dataValues.imagePath) { %>
+            <img src="/<%= note.dataValues.imagePath %>" alt="User image" class="note__image">
+            <% } %>
+            <% if (note.dataValues.text) { %>
+                <p class="note__description">
+                    <%= note.dataValues.text %>
+                </p>
+            <% } %>
         </div>
         <div class="note--footer">
             <% if (note.dataValues.tags.length > 0) { %>

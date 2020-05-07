@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-control">
                         <img class="icon" src="/img/calendar.svg" alt="calendar">
-                        <input value="<% if (editMode) { %><%= reminder.timestamp %><% } %>" class="input input-white"
+                        <input value="<% if (editMode) { %><%= targetDate %><% } %>" class="input input-white"
                             type="date" name="timestamp" id="timestamp">
                     </div>
                     <input value="<%= note.dataValues.id %>" type="hidden" name="noteId">

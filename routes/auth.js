@@ -12,6 +12,8 @@ router.post('/login', authController.postLogin);
 
 router.post('/signup', authController.postSignup);
 
+router.get('/signup/:userId', authController.getActivate);
+
 router.post('/logout', authController.postLogout);
 
 router.get('/forgot-password', authController.getForgotPassword);

@@ -12,6 +12,11 @@ const User = sequelize.define('user', {
     defaultValue: false,
     allowNull: false,
   },
+  isMailVerified: {
+    type: Sequelize.BOOLEAN(),
+    defaultValue: false,
+    allowNull: false,
+  },
 });
 
 module.exports = User;

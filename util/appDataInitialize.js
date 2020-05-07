@@ -70,6 +70,7 @@ module.exports = async () => {
     login: "Vladislav",
     isAdmin: true,
     languageId: 1,
+    isMailVerified: true,
   }).then((currentUser) => {
     currentUser.createNote({
       title: "A Simple Component",
@@ -180,7 +181,8 @@ module.exports = async () => {
   User.create({
     email: "test@gmail.com",
     password: hashedPassword,
-    login: "Anonym User",
+    login: "Тест",
+    isMailVerified: true,
     languageId: 1,
   }).then((currentUser) => {
     currentUser.createNote({

@@ -4,6 +4,7 @@ const Note = require("../models/note");
 const Tag = require("../models/tag");
 const Reminder = require("../models/reminder");
 const Language = require("../models/language");
+const formatDate = require("../util/formatDate");
 const { Op } = require("sequelize");
 
 exports.getIndex = async (req, res, next) => {
@@ -78,12 +79,18 @@ exports.getAddNote = async (req, res, next) => {
 
 exports.postAddNote = async (req, res, next) => {
   const { title, text, colorId = 1, tags } = req.body;
+  const image = req.file;
   const { id: userId } = req.session.user;
   const noteText = text.trim();
+  let imagePath = null;
+
+  if (image) {
+    imagePath = image.path;
+  }
 
   const selectedTags = tags && (tags.length ? tags : [tags]);
 
-  if (!noteText) {
+  if (!noteText && !image && !title) {
     req.flash("error", "Note can't be blank!");
     return res.redirect("/add-note");
   }
@@ -95,6 +102,7 @@ exports.postAddNote = async (req, res, next) => {
       title: title.trim(),
       text: noteText,
       colorId,
+      imagePath,
     })
     .then((note) => {
       return selectedTags ? note.setTags(selectedTags) : note.setTags([]);
@@ -173,7 +181,7 @@ exports.getEditNote = async (req, res, next) => {
   });
   const appliedTagsIdArray = appliedTags.map((tag) => tag.dataValues.id);
   const {
-    dataValues: { title, text, colorId },
+    dataValues: { title, text, colorId, imagePath },
   } = noteData;
 
   res.render("main/add-note", {
@@ -188,11 +196,13 @@ exports.getEditNote = async (req, res, next) => {
     noteId,
     userTags,
     appliedTags: appliedTagsIdArray,
+    imagePath,
   });
 };
 
 exports.postEditNote = async (req, res, next) => {
   const { noteId, title, text, colorId = null, tags } = req.body;
+  const image = req.file;
   const { id: userId } = req.session.user;
   const currentUser = await User.findByPk(userId);
   const noteText = text.trim();
@@ -205,7 +215,7 @@ exports.postEditNote = async (req, res, next) => {
     res.redirect("/notes");
   }
 
-  if (!noteText) {
+  if (!noteText && !image && !title) {
     req.flash("error", "Note can't be blank!");
     return res.redirect("/edit-note");
   }
@@ -213,6 +223,9 @@ exports.postEditNote = async (req, res, next) => {
   note.title = title;
   note.text = noteText;
   note.colorId = colorId;
+  if (image) {
+    note.imagePath = image.path;
+  }
 
   note
     .save()
@@ -430,7 +443,15 @@ exports.postAddReminder = async (req, res, next) => {
   const { timestamp, remindText, noteId } = req.body;
   if (!timestamp) {
     req.flash("error", "You should specify remind date!");
-    return res.redirect("/add-reminder");
+    return res.redirect(`/add-reminder/${noteId}`);
+  }
+
+  const targetDate = formatDate(timestamp);
+  const today = formatDate(Date.now());
+
+  if (targetDate < today) {
+    req.flash("error", "Remind date should be in future!");
+    return res.redirect(`/add-reminder/${noteId}`);
   }
   const { id: userId } = req.session.user;
 
@@ -482,6 +503,8 @@ exports.getEditReminder = async (req, res, next) => {
     where: { id: currentReminder.dataValues.noteId },
   });
 
+  const targetDate = formatDate(userReminder.dataValues.timestamp);
+
   if (!userReminder) {
     res.redirect("/reminders");
   }
@@ -500,6 +523,7 @@ exports.getEditReminder = async (req, res, next) => {
     editMode: true,
     reminder: userReminder,
     note: currentNote,
+    targetDate,
   });
 };
 
@@ -511,6 +535,17 @@ exports.postEditReminder = async (req, res, next) => {
 
   if (currentNote.dataValues.userId !== userId) {
     res.redirect("/reminders");
+  }
+  const target = new Date(timestamp);
+  const now = new Date(Date.now());
+  const targetDate = `${target.getFullYear()}-${
+    target.getMonth() + 1
+  }-${target.getDate()}`;
+  const today = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+
+  if (targetDate < today) {
+    req.flash("error", "Remind date should be in future!");
+    return res.redirect(`/edit-reminder/${reminderId}`);
   }
 
   if (!timestamp) {
@@ -537,11 +572,11 @@ exports.postDeleteReminder = async (req, res, next) => {
   const currentNote = await currentReminder.getNote();
 
   if (currentNote.dataValues.userId !== userId) {
-    res.redirect("/reminders");
+    res.redirect("/reminders?action=edit");
   }
 
   currentReminder.destroy().then(() => {
-    res.redirect("/reminders");
+    res.redirect("/reminders?action=edit");
   });
 };
 
@@ -589,7 +624,7 @@ exports.poshChangeLocale = async (req, res, next) => {
   const currentLocale = await Language.findByPk(localeId);
 
   req.session.locale = currentLocale.dataValues.shortName;
-  
+
   currentUser.languageId = localeId;
 
   currentUser.save().then(() => {
