@@ -640,21 +640,21 @@ exports.exportUserData = async (req, res, next) => {
   const { id: userId } = req.session.user;
   const currentUser = await User.findByPk(userId);
 
+  if (!currentUser) {
+    res.redirect("/");
+  }
+
   const now = new Date(Date.now());
   const today = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
 
-  const fileName = `data-${currentUser.dataValues.login}-${today}.json`;
+  const fileName = `data-${today}.json`;
   const filePath = path.join("images", fileName);
 
   const readFileController = (err, data) => {
     if (err) {
+      console.log(err);
       return next(err);
     }
-    fs.unlink(filePath, (err) => {
-      if (err) {
-        throw err;
-      }
-    });
     res.setHeader("Content-Type", "application/json");
     res.setHeader("Content-Disposition", `attachment; filename=${fileName}`);
     res.send(data);
@@ -686,19 +686,15 @@ exports.importUserData = async (req, res, next) => {
     return res.redirect("/");
   }
 
-  if (!json || !json.mimetype.includes('json')) {
+  if (!json || !json.mimetype.includes("json")) {
     return res.redirect("/");
   }
 
   fs.readFile(filePath, (err, data) => {
     if (err) {
+      console.log(err);
       return next(err);
     }
-    fs.unlink(filePath, (err) => {
-      if (err) {
-        throw err;
-      }
-    });
     let parsedData;
     try {
       parsedData = JSON.parse(data);

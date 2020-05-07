@@ -1,7 +1,7 @@
 {
-  "name": "nodejs-complete-guide",
+  "name": "keep-me",
   "version": "1.0.0",
-  "description": "Complete Node.js Guide",
+  "description": "Keep me",
   "main": "app.js",
   "engines": {
     "node": "12.16.3"
@@ -9,12 +9,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "start:dev": "nodemon app.js"
+    "start:dev": "nodemon app.js --ignore '*.test.ts'"
   },
-  "author": "Maximilian Schwarzmüller",
+  "author": "Vladislav Goman",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^1.19.4"
+  },  
+  "nodemonConfig": {
+    "ignore": ["images"]
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
